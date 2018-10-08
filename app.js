@@ -14,7 +14,25 @@ mongoose.connect('mongodb://localhost:27017/cv-mobile', {useNewUrlParser: true})
 
 // Server Routes
 app.get('/', (req, res) => {
-  res.send('<h1>Hello world</h1>');
+  res.send('hello world');
+});
+const apiRoutes = require('./routes/api');
+app.use('/api', apiRoutes);
+
+// Middleware
+// 404 Catching
+app.use((req, res, next) => {
+  const err = new Error('File not found');
+  err.status = 404;
+  return next(err);
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.json({
+    error: err.message
+  })
 });
 
 // Run server
