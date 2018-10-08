@@ -38,21 +38,33 @@ router.get('/users', (req, res, next) => {
   User.find().then( users => res.json(users));
 });
 
+router.get('/users/:page', (req, res, next) => {
+  User.find()
+    .skip((req.params.page - 1) * 10)
+    .limit(10)
+    .then( users => res.json(users));
+});
+
 router.post('/users', upload.single('profilePicture'), (req, res, next) => {
+  // const newUser = {
+  //   firstName: req.body.firstName,
+  //   lastName: req.body.lastName,
+  //   username: req.body.username,
+  //   email: req.body.email,
+  //   profilePicture: req.file.path,
+  //   location: {...req.body.location},
+  //   phoneNumber: req.body.phoneNumber,
+  //   website: req.body.website,
+  //   languages: [...req.body.languages],
+  //   skills: [...req.body.skills]
+  // }
+
   const newUser = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    username: req.body.username,
-    email: req.body.email,
-    profilePicture: req.file.path,
-    location: {...req.body.location},
-    phoneNumber: req.body.phoneNumber,
-    website: req.body.website,
-    languages: [...req.body.languages],
-    skills: [...req.body.skills]
+    ...req.body,
+    profilePicture: req.file.path
   }
 
-  User.create(newUser, function (err) => {
+  User.create(newUser, function (err) {
     if (err) {
       return next(err);
     } else {
