@@ -51,12 +51,11 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
     lastName: req.body.lastName,
     username: req.body.username,
     email: req.body.email,
-    profilePicture: req.file.path,
     location: {...req.body.location},
     phoneNumber: req.body.phoneNumber,
     website: req.body.website,
     languages: [...req.body.languages],
-    skills: [...req.body.skills]
+    skills: [...req.body.skills],
   }
   if (req.file) {
     newUser.profilePicture = req.file.path
