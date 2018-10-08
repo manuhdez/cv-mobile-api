@@ -1,17 +1,22 @@
 {
-  "name": "cv-mobile-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "manuhdez",
-  "license": "MIT",
-  "devDependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.3",
-    "mongoose": "^5.3.2",
-    "multer": "^1.4.0"
-  }
+	"name": "cv-mobile-api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "app.js",
+	"scripts": {
+		"start": "node app.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "manuhdez",
+	"license": "MIT",
+	"dependencies": {
+		"body-parser": "^1.18.3",
+		"express": "^4.16.3",
+		"mongoose": "^5.3.2",
+		"multer": "^1.4.0"
+	},
+	"engines": {
+		"node": "8.9.0",
+		"npm": "6.4.1"
+	}
 }
