@@ -61,7 +61,7 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
 
   const newUser = {
     ...req.body,
-    profilePicture: req.file.path
+    profilePicture: req.file.path ? req.file.path : ''
   }
 
   User.create(newUser, function (err) {
