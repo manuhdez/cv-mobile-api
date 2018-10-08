@@ -12,6 +12,26 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Database connection
 // mongoose.connect('mongodb://localhost:27017/cv-mobile', {useNewUrlParser: true});
 mongoose.connect('mongodb://manuhdez:cv-mobile-api-2018@ds225703.mlab.com:25703/cv-mobile-api', {useNewUrlParser: true});
+const db = mongoose.connection;
+
+db.on('error', (err) => {
+  console.error('Mongodb connection error:', err);
+});
+
+db.on('open', () => {
+  console.log('Mongodb connected successfully');
+});
+
+// CORS Managing
+app.use( (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  if(req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "PUT, POST, DELETE");
+    return res.status(200).json({});
+  }
+  next();
+});
 
 // Server Routes
 app.get('/', (req, res) => {
