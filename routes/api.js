@@ -46,22 +46,20 @@ router.get('/users/:page', (req, res, next) => {
 });
 
 router.post('/users', upload.single('profilePicture'), (req, res, next) => {
-  // const newUser = {
-  //   firstName: req.body.firstName,
-  //   lastName: req.body.lastName,
-  //   username: req.body.username,
-  //   email: req.body.email,
-  //   profilePicture: req.file.path,
-  //   location: {...req.body.location},
-  //   phoneNumber: req.body.phoneNumber,
-  //   website: req.body.website,
-  //   languages: [...req.body.languages],
-  //   skills: [...req.body.skills]
-  // }
-
   const newUser = {
-    ...req.body,
-    profilePicture: req.file.path
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    username: req.body.username,
+    email: req.body.email,
+    profilePicture: req.file.path,
+    location: {...req.body.location},
+    phoneNumber: req.body.phoneNumber,
+    website: req.body.website,
+    languages: [...req.body.languages],
+    skills: [...req.body.skills]
+  }
+  if (req.file) {
+    newUser.profilePicture = req.file.path
   }
 
   User.create(newUser, function (err) {
