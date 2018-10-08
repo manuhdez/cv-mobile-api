@@ -10,4 +10,8 @@ router.get('/', (req, res, next) => {
   });
 });
 
+router.get('/users', (req, res, next) => {
+  User.find().then( users => res.json(users));
+});
+
 module.exports = router;
