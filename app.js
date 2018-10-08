@@ -10,7 +10,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Database connection
-mongoose.connect('mongodb://localhost:27017/cv-mobile', {useNewUrlParser: true});
+// mongoose.connect('mongodb://localhost:27017/cv-mobile', {useNewUrlParser: true});
+mongoose.connect('mongodb://manuhdez:cv-mobile-api-2018@ds225703.mlab.com:25703/cv-mobile-api', {useNewUrlParser: true});
 
 // Server Routes
 app.get('/', (req, res) => {
