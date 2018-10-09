@@ -101,7 +101,34 @@ router.get('/users/:id', (req, res, next) => {
 });
 
 // Update a users info by its id
-// router.put();
+router.put('/users/:id', upload.single('profilePicture'), (req, res, next) => {
+  const updatedUser = {
+    name: req.body.name,
+    username: req.body.username,
+    email: req.body.email,
+    gender: req.body.gender,
+    location: {
+      "city": req.body.city,
+      "state": req.body.state,
+      "country": req.body.country
+    },
+    company: req.body.company,
+    website: req.body.website,
+    birthDate: req.body.birthDate,
+    experience: req.body.experience,
+    languages: req.body.languages.slice().split(', '),
+    skills: req.body.skills.slice().split(', '),
+  }
+
+  if (req.file) {
+    updatedUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
+  }
+
+  User.findByIdAndUpdate( req.params.id, updatedUser, function (err, doc) {
+    if (err) return next(err);
+    res.json(doc);
+  });
+});
 
 // Delete a user by id
 router.delete('/users/:id', (req, res, next) => {
