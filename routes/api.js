@@ -34,47 +34,70 @@ router.get('/', (req, res, next) => {
   });
 });
 
+// Get all users
 router.get('/users', (req, res, next) => {
   User.find().then( users => res.json(users));
 });
 
-router.get('/users/:page', (req, res, next) => {
+// Get a page with 10 users
+router.get('/users?page=1', (req, res, next) => {
+  console.log(req.query.page)
   User.find()
-    .skip((req.params.page - 1) * 10)
+    .skip((req.query.page - 1) * 10)
     .limit(10)
     .then( users => res.json(users));
 });
 
+// Add a new user to the database
 router.post('/users', upload.single('profilePicture'), (req, res, next) => {
 
-  const newUser = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    gender: req.body.gender,
-    username: req.body.username,
-    email: req.body.email,
-    location: {
-      "city": req.body.city,
-      "state": req.body.state,
-      "postcode": req.body.postcode
-    },
-    phoneNumber: req.body.phoneNumber,
-    website: req.body.website,
-    languages: req.body.languages.slice().split(', '),
-    skills: req.body.skills.slice().split(', '),
-  }
-  if (req.file) {
-    newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
-  }
-
-  User.create(newUser, function (err) {
-    if (err) {
-      return next(err);
-    } else {
-      return res.redirect('/api/users');
+  if (req.body.name && req.body.email && req.body.username) {
+    const newUser = {
+      name: req.body.name,
+      username: req.body.username,
+      email: req.body.email,
+      gender: req.body.gender,
+      location: {
+        "city": req.body.city,
+        "state": req.body.state,
+        "country": req.body.country
+      },
+      company: req.body.company,
+      website: req.body.website,
+      birthDate: req.body.birthDate,
+      experience: req.body.experience,
+      languages: req.body.languages.slice().split(', '),
+      skills: req.body.skills.slice().split(', '),
     }
-  });
+    if (req.file) {
+      newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
+    }
 
+    User.create(newUser, function (err) {
+      if (err) {
+        return next(err);
+      } else {
+        return res.redirect('/api/users');
+      }
+    });
+  } else {
+    res.json({
+      error: 'All required data was not sent'
+    });
+  }
+});
+
+// Get a users info by id
+router.get('/users/:id', (req, res, next) => {
+  User.findById( req.params.id, function (err, doc) {
+    if (err) return next(err);
+    if (!doc) {
+      const error = new Error('User not found');
+      error.status = 404;
+      return next(error);
+    }
+    res.json(doc);
+  });
 });
 
 module.exports = router;

@@ -8,6 +8,9 @@ const mongoose = require('mongoose');
 app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// views settings
+app.set('view engine', 'pug');
+app.set('views', __dirname + '/views');
 
 // Database connection
 // mongoose.connect('mongodb://localhost:27017/cv-mobile', {useNewUrlParser: true});
@@ -35,8 +38,9 @@ app.use( (req, res, next) => {
 
 // Server Routes
 app.get('/', (req, res) => {
-  res.send('hello world');
+  res.render('index');
 });
+
 const apiRoutes = require('./routes/api');
 app.use('/api', apiRoutes);
 
