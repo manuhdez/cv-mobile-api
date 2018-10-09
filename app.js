@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 // Server configuration
 // Parsing requests
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
