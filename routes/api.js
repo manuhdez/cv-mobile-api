@@ -210,6 +210,10 @@ router.get('/skills', (req, res, next) => {
     {
       name: 'vuejs',
       label: 'Vue js'
+    },
+    {
+      name: 'php',
+      label: 'PHP'
     }
   ]);
 });
