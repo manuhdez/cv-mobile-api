@@ -64,7 +64,7 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
     skills: req.body.skills.slice().split(', '),
   }
   if (req.file) {
-    newUser.profilePicture = req.file.path
+    newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
   }
 
   User.create(newUser, function (err) {
