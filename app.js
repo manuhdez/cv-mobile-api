@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 // Server configuration
 // Parsing requests
-app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -43,7 +43,7 @@ app.use('/api', apiRoutes);
 // Middleware
 // 404 Catching
 app.use((req, res, next) => {
-  const err = new Error('File not found');
+  const err = new Error('Page not found');
   err.status = 404;
   return next(err);
 });

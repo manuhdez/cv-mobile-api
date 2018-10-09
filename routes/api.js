@@ -71,7 +71,7 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
     if (err) {
       return next(err);
     } else {
-      return next(err);
+      return res.redirect('/api/users');
     }
   });
 
