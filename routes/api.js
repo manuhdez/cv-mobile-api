@@ -46,6 +46,7 @@ router.get('/users/:page', (req, res, next) => {
 });
 
 router.post('/users', upload.single('profilePicture'), (req, res, next) => {
+
   const newUser = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -54,8 +55,8 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
     location: {...req.body.location},
     phoneNumber: req.body.phoneNumber,
     website: req.body.website,
-    languages: req.body.languages.split(', '),
-    skills: req.body.skills.split(', '),
+    languages: req.body.languages.slice().split(', '),
+    skills: req.body.skills.slice().split(', '),
   }
   if (req.file) {
     newUser.profilePicture = req.file.path
