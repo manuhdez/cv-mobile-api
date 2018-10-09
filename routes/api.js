@@ -73,11 +73,11 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
       newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
     }
 
-    User.create(newUser, function (err) {
+    User.create(newUser, function (err, doc) {
       if (err) {
         return next(err);
       } else {
-        return res.redirect('/api/users');
+        return res.json(doc);
       }
     });
   } else {
