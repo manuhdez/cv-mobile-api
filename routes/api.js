@@ -100,4 +100,17 @@ router.get('/users/:id', (req, res, next) => {
   });
 });
 
+// Update a users info by its id
+// router.put();
+
+// Delete a user by id
+router.delete('/users/:id', (req, res, next) => {
+  User.findByIdAndRemove(req.params.id, function (err) {
+    if (err) return next(err);
+    res.json({
+      message: 'The user was successfully removed'
+    })
+  });
+});
+
 module.exports = router;
