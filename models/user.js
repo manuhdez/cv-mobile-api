@@ -11,7 +11,7 @@ const UserSchema = new Schema({
   website: {type: String, trim: true},
   languages: Array,
   skills: Array,
-  // gender: {type: String, required: true},
+  gender: String,
   profilePicture: String
 });
 

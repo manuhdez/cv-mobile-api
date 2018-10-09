@@ -50,9 +50,14 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
   const newUser = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
+    gender: req.body.gender,
     username: req.body.username,
     email: req.body.email,
-    location: {...req.body.location},
+    location: {
+      "city": req.body.city,
+      "state": req.body.state,
+      "postcode": req.body.postcode
+    },
     phoneNumber: req.body.phoneNumber,
     website: req.body.website,
     languages: req.body.languages.slice().split(', '),
