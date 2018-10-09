@@ -9,6 +9,7 @@ const UserSchema = new Schema({
   location: {type: Object},
   phoneNumber: Number,
   website: {type: String, trim: true},
+  company: String,
   languages: Array,
   skills: Array,
   gender: String,

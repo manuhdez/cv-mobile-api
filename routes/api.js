@@ -5,7 +5,7 @@ const multer = require('multer');
 // Multer settings to store images into the database
 const storage = multer.diskStorage({
   destination: function(req, file, callback) {
-    callback(null, './uploads');
+    callback(null, 'uploads/');
   },
   filename: function(req, file, callback) {
     callback(null, new Date().toISOString() + file.originalname);
