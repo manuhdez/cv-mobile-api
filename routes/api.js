@@ -140,23 +140,76 @@ router.delete('/users/:id', (req, res, next) => {
 });
 
 // Languages json
-router.get('/lang', (req, res, next) => {
+router.get('/langs', (req, res, next) => {
   res.json([
     {
-      name: 'spanish',
-      label: 'lang-es'
+      name: 'lang-es',
+      label: 'spanish',
+      default: 1
     },
     {
-      name: 'english',
-      label: 'lang-en'
+      name: 'lang-en',
+      label: 'english',
+      default: 0
     },
     {
-      name: 'italian',
-      label: 'lang-it'
+      name: 'lang-it',
+      label: 'italian',
+      default: 0
     },
     {
-      name: 'german',
-      label: 'lang-de'
+      name: 'lang-de',
+      label: 'german',
+      default: 0
+    }
+  ]);
+});
+
+router.get('/skills', (req, res, next) => {
+  res.json([
+    {
+      name: 'html',
+      label: 'HTML'
+    },
+    {
+      name: 'css',
+      label: 'CSS'
+    },
+    {
+      name: 'sass-less',
+      label: 'SASS / LESS'
+    },
+    {
+      name: 'javascript',
+      label: 'Javascript'
+    },
+    {
+      name: 'jquery',
+      label: 'jQuery'
+    },
+    {
+      name: 'nodejs',
+      label: 'Nodejs'
+    },
+    {
+      name: 'expressjs',
+      label: 'Express'
+    },
+    {
+      name: 'mongodb',
+      label: 'MongoDB'
+    },
+    {
+      name: 'react',
+      label: 'React js'
+    },
+    {
+      name: 'angular',
+      label: 'Angular js'
+    },
+    {
+      name: 'vuejs',
+      label: 'Vue js'
     }
   ]);
 });
