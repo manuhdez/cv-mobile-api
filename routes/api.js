@@ -139,4 +139,26 @@ router.delete('/users/:id', (req, res, next) => {
   });
 });
 
+// Languages json
+router.get('/lang', (req, res, next) => {
+  res.json([
+    {
+      name: 'spanish',
+      label: 'lang-es'
+    },
+    {
+      name: 'english',
+      label: 'lang-en'
+    },
+    {
+      name: 'italian',
+      label: 'lang-it'
+    },
+    {
+      name: 'german',
+      label: 'lang-de'
+    }
+  ]);
+});
+
 module.exports = router;
