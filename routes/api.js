@@ -36,15 +36,14 @@ router.get('/', (req, res, next) => {
 
 // Get all users
 router.get('/users', (req, res, next) => {
-  User.find().then( users => res.json(users));
-});
-
-// Get a page with 10 users
-router.get('/users/page/:pageId', (req, res, next) => {
-  User.find()
-    .skip((req.params.pageId - 1) * 10)
+  if (req.query.page) {
+    User.find()
     .limit(10)
+    .skip((req.params.pageId - 1) * 10)
     .then( users => res.json(users));
+  } else {
+    User.find().then( users => res.json(users));
+  }
 });
 
 // Add a new user to the database
