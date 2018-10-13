@@ -62,6 +62,7 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
         "country": req.body.country
       },
       company: req.body.company,
+      jobTitle: req.body.jobTitle,
       website: req.body.website,
       birthDate: req.body.birthDate,
       experience: req.body.experience,
@@ -112,6 +113,7 @@ router.put('/users/:id', upload.single('profilePicture'), (req, res, next) => {
       "country": req.body.country
     },
     company: req.body.company,
+    jobTitle: req.body.jobTitle,
     website: req.body.website,
     birthDate: req.body.birthDate,
     experience: req.body.experience,

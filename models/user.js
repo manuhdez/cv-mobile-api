@@ -8,6 +8,7 @@ const UserSchema = new Schema({
   gender: String,
   location: {type: Object},
   company: String,
+  jobTitle: String,
   languages: Array,
   skills: Array,
   experience: String,
