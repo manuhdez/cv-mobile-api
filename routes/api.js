@@ -102,6 +102,7 @@ router.get('/users/:id', (req, res, next) => {
 
 // Update a users info by its id
 router.put('/users/:id', upload.single('profilePicture'), (req, res, next) => {
+  console.log(req.body);
   const updatedUser = {
     name: req.body.name,
     username: req.body.username,
