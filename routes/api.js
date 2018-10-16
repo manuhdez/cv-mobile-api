@@ -66,8 +66,8 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
       website: req.body.website,
       birthDate: req.body.birthDate,
       experience: req.body.experience,
-      languages: req.body.languages,
-      skills: req.body.skills,
+      languages: JSON.parse(req.body.languages),
+      skills: JSON.parse(req.body.skills),
       registeredDate: Date.now()
     }
     if (req.file) {
