@@ -14,7 +14,8 @@ const UserSchema = new Schema({
   experience: String,
   birthDate: Date,
   website: {type: String, trim: true},
-  profilePicture: {type: String, trim: true}
+  profilePicture: {type: String, trim: true},
+  registeredDate: Number
 });
 
 const User = mongoose.model('User', UserSchema);

@@ -68,6 +68,7 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
       experience: req.body.experience,
       languages: req.body.languages.slice().split(', '),
       skills: req.body.skills.slice().split(', '),
+      registeredDate: Date.now()
     }
     if (req.file) {
       newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
