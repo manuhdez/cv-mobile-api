@@ -14,7 +14,7 @@ html(lang="en")
     div(class="row px-4 mx-auto w-100", style="height:80vh;")
       div(class="container col-2", style="height:100%;")
         nav(class="navbar-light bg-light p-3", id="api-nav")
-          a(class="navbar-brand", href="#") API Functionalities
+          a(class="navbar-brand", href="#") API Endpoints
           nav(class="nav nav-pills flex-column")
             a(class="nav-link" href="#item-1") Users
             nav(class="nav nav-pills flex-column")
@@ -22,7 +22,7 @@ html(lang="en")
               a(class="nav-link ml-3" href="#item-1-2") User pagination
               a(class="nav-link ml-3" href="#item-1-3") Get user by ID
               a(class="nav-link ml-3" href="#item-1-4") Add new user
-              a(class="nav-link ml-3" href="#item-1-5") Modify user
+              a(class="nav-link ml-3" href="#item-1-5") Update user
               a(class="nav-link ml-3" href="#item-1-6") Delete user
             a(class="nav-link" href="#item-2") Skills
             nav(class="nav nav-pills flex-column")
@@ -40,10 +40,11 @@ html(lang="en")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-1-1") # Get all users
             p The main functionality of the API is th get the full list of users stored in the database.
-            p To get those users you need to to a get request to the endpoint below:
-            p(class="p-4 bg-light")
+            p To get those users you need to to a get request to the url below.
+            h4.mt-4 Endpoint
+            p(class="p-4 mb-5 bg-light")
               code
-                a(href="https://cv-mobile-api.herokuapp.com/api/users", class="text-danger") https://cv-mobile-api.herokuapp.com/api/users
+                a(target="_blank", href="https://cv-mobile-api.herokuapp.com/api/users", class="text-danger") https://cv-mobile-api.herokuapp.com/api/users
             h4.mt-4 Fetch request example
             p(class="p-4 bg-dark")
               code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/users')
@@ -64,9 +65,10 @@ html(lang="en")
               |
               span.font-weight-bold  Infinite scroll, lazy loading, etc.
             p To make it easier to develop those functionalities there is an endpoint where you will get as response an object with 10 users, as they appear on the database.
-            p(class="p-4 bg-light")
+            h4.mt-4 Endpoint
+            p(class="p-4 mb-5 bg-light")
               code
-                a(href="https://cv-mobile-api.herokuapp.com/api/users/pages/1", class="text-danger") https://cv-mobile-api.herokuapp.com/api/users/pages/1
+                a(target="_blank", href="https://cv-mobile-api.herokuapp.com/api/users/pages/1", class="text-danger") https://cv-mobile-api.herokuapp.com/api/users/pages/1
             p This url works similar to the previews one but adds a dynamic parameter at the end to render different user pages.
             p For every page you request, the api skips the needed users to avoid repetition so if you request for the 3rd page the response will be an object with the users 21 to 30.
             h4.mt-4 Fetch request example
@@ -85,9 +87,10 @@ html(lang="en")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-1-3") # Get user by ID
             p To get the data of a single user you just need to now its _id property.
-            p(class="p-4 bg-light")
+            h4.mt-4 Endpoint
+            p(class="p-4 mb-5 bg-light")
               code
-                a(href="https://cv-mobile-api.herokuapp.com/api/users/5bbcd6c233daa000153cc81e", class="text-danger") https://cv-mobile-api.herokuapp.com/api/users/5bbcd6c233daa000153cc81e
+                a(target="_blank", href="https://cv-mobile-api.herokuapp.com/api/users/5bbcd6c233daa000153cc81e", class="text-danger") https://cv-mobile-api.herokuapp.com/api/users/5bbcd6c233daa000153cc81e
             h4.mt-4 Fetch request example
             p(class="p-4 bg-dark")
               code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/users/5bbcd6c233daa000153cc81e')
@@ -106,34 +109,56 @@ html(lang="en")
             p Lorem ipsum dolor sit amet.
         .row
           .container-fluid.mb-5
-            h2(class="mb-3 font-weight-bold", id="item-1-5") # Get all users
+            h2(class="mb-3 font-weight-bold", id="item-1-5") # Update data of an existing user
             p Lorem ipsum dolor sit amet.
         .row
           .container-fluid.mb-5
-            h2(class="mb-3 font-weight-bold", id="item-1-6") # Get users 10 by 10
+            h2(class="mb-3 font-weight-bold", id="item-1-6") # Delete an existing user
             p Lorem ipsum dolor sit amet.
         h1(class="font-weight-bold display-2 font-weight-bold", id="item-2") Skills
         p.mb-5 Lorem ipsum dolor sit amet.
         .row
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-2-1") # Get skills
-            p Lorem ipsum dolor sit amet.
+            p To get all skills stored in the database its needed a GET request to the url below.
+            h4.mt-4 Endpoint
+            p(class="p-4 mb-5 bg-light")
+              code
+                a(target="_blank", href="https://cv-mobile-api.herokuapp.com/api/skills", class="text-danger") https://cv-mobile-api.herokuapp.com/api/skills
+            h4.mt-4 Post request example
+            p(class="p-4 bg-dark")
+              code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/skills')
+              br
+              code.text-white .then( response => response.json() )
+              br
+              code.text-white .then( jsonResponse => console.log(jsonResponse) )
         .row
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-2-2") # Add a new skill
-            p Lorem ipsum dolor sit amet.
+            p Coming soon...
         h1(class="font-weight-bold display-2 font-weight-bold", id="item-3") Languages
         p.mb-5 Lorem ipsum dolor sit amet.
         .row
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-3-1") # Get languages
-            p Lorem ipsum dolor sit amet.
-        .row
+            p To get all languages stored in the database its needed a GET request to the url below.
+            h4.mt-4 Endpoint
+            p(class="p-4 mb-5 bg-light")
+              code
+                a(target="_blank", href="https://cv-mobile-api.herokuapp.com/api/langs", class="text-danger") https://cv-mobile-api.herokuapp.com/api/langs
+            h4.mt-4 Post request example
+            p(class="p-4 bg-dark")
+              code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/langs')
+              br
+              code.text-white .then( response => response.json() )
+              br
+              code.text-white .then( jsonResponse => console.log(jsonResponse) )
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-3-2") # Add a new language
-            p Lorem ipsum dolor sit amet.
-        h1(class="font-weight-bold", id="item-4") More coming soon...
-        p Surveys, informs...
+            p Coming soon...
+        //- h1(class="font-weight-bold", id="item-4") More coming soon...
+        //- p Surveys, informs...
 
 
     script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js", integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo", crossorigin="anonymous")
