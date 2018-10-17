@@ -72,6 +72,8 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
     }
     if (req.file) {
       newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
+    } else {
+      newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/uploads/defaul_avatar.png';
     }
 
     User.create(newUser, function (err, doc) {
