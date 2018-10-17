@@ -68,13 +68,13 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
       experience: req.body.experience,
       languages: JSON.parse(req.body.languages),
       skills: JSON.parse(req.body.skills),
-      registeredDate: Date.now()
+      registeredDate: Date.now(),
+      profilePicture: req.file ? 'https://cv-mobile-api.herokuapp.com/' + req.file.path : 'https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png'
     }
-    if (req.file) {
-      newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
-    } else {
-      newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/uploads/defaul_avatar.png';
-    }
+
+    // if (req.file) {
+    //   newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
+    // }
 
     User.create(newUser, function (err, doc) {
       if (err) {
