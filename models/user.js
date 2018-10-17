@@ -2,17 +2,20 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  firstName: {type: String, required: true},
-  lastName: {type: String, required: true},
+  name: {type: String, required: true},
   username: {type: String, required: true},
   email: {type: String, unique: true, required: true},
+  gender: String,
   location: {type: Object},
-  phoneNumber: Number,
-  website: {type: String, trim: true},
+  company: String,
+  jobTitle: String,
   languages: Array,
   skills: Array,
-  // gender: {type: String, required: true},
-  profilePicture: String
+  experience: String,
+  birthDate: Date,
+  website: {type: String, trim: true},
+  profilePicture: {type: String, trim: true},
+  registeredDate: Number
 });
 
 const User = mongoose.model('User', UserSchema);
