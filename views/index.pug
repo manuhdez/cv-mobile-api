@@ -36,28 +36,77 @@ html(lang="en")
       div(class="container col-10", data-spy="scroll", data-target="#api-nav", data-offset="0", style="height:100%; overflow-y: scroll;")
         h1(id="item-1", class="display-2 font-weight-bold") Users
         p.mb-5 Users can be listed, created, modified and deleted from the API, but to do so you have to be sure to do it the way it is explained below in this page.
-        .row
+        h4.mt-3 User object example
+        p(class="p-4 mb-5 bg-light")
+              code
+                | {
+                br
+                |   "languages": [
+                |   "english",
+                |   "spanish"
+                |   ],
+                br
+                |   "skills": [
+                |   "html",
+                |   "css",
+                |   "javascript",
+                |   "node",
+                |   "express"
+                |   ],
+                br
+                |   "_id": "5bbcd6c233daa000153cc81e",
+                br
+                |   "name": "Patricia Lebsack",
+                br
+                |   "username": "Kariannes",
+                br
+                |   "email": "Julianne.OConner@kory.com",
+                br
+                |   "gender": "male",
+                br
+                |   "location": {
+                |   "city": "Leith",
+                |   "state": "Edimburg",
+                |   "country": "United Kingdom"
+                |   },
+                br
+                |   "company": "Robel-Corkery",
+                br
+                |   "jobTitle": "Fullstack Developer",
+                br
+                |   "website": "lebsack.info",
+                br
+                |   "birthDate": "1986-02-25T00:00:00.000Z",
+                br
+                |   "experience": "- 1 year",
+                br
+                |   "registeredDate": 1534149132000,
+                br
+                |   "profilePicture": "https://cv-mobile-api.herokuapp.com/uploads/500_9.jpeg",
+                br
+                | }
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-1-1") # Get all users
             p The main functionality of the API is th get the full list of users stored in the database.
             p To get those users you need to to a get request to the url below.
-            h4.mt-4 Endpoint
-            p(class="p-4 mb-5 bg-light")
+            h4.mt-5 Endpoint
+            p(class="p-4 bg-light")
               code
                 a(target="_blank", href="https://cv-mobile-api.herokuapp.com/api/users", class="text-danger") https://cv-mobile-api.herokuapp.com/api/users
-            h4.mt-4 Fetch request example
+            h4.mt-5 Fetch request example
             p(class="p-4 bg-dark")
               code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/users')
               br
-              code.text-white .then( response => response.json() )
+              code.text-white &nbsp;&nbsp;.then( response => response.json() )
               br
-              code.text-white .then( jsonResponse => console.log(jsonResponse) )
-            h4.mt-4 Ajax request example
+              code.text-white &nbsp;&nbsp;.then( jsonResponse => console.log(jsonResponse) )
+            h4.mt-5 Ajax request example
             p(class="p-4 bg-dark")
               code.text-white $.ajax('https://cv-mobile-api.herokuapp.com/api/users')
               br
-              code.text-white .done( response => console.log(response))
-        .row
+              code.text-white &nbsp;&nbsp;.done( response => console.log(response))
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-1-2") # User pagination
             p Sometimes there is no need to fetch all users in one request, instead of it you may prefer to get just a group of users.
@@ -75,15 +124,15 @@ html(lang="en")
             p(class="p-4 bg-dark")
               code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/users/pages/2')
               br
-              code.text-white .then( response => response.json() )
+              code.text-white &nbsp;&nbsp;.then( response => response.json() )
               br
-              code.text-white .then( jsonResponse => console.log(jsonResponse) )
+              code.text-white &nbsp;&nbsp;.then( jsonResponse => console.log(jsonResponse) )
             h4.mt-4 Ajax request example
             p(class="p-4 bg-dark")
               code.text-white $.ajax('https://cv-mobile-api.herokuapp.com/api/users/pages/2')
               br
-              code.text-white .done( response => console.log(response))
-        .row
+              code.text-white &nbsp;&nbsp;.done( response => console.log(response))
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-1-3") # Get user by ID
             p To get the data of a single user you just need to now its _id property.
@@ -95,29 +144,275 @@ html(lang="en")
             p(class="p-4 bg-dark")
               code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/users/5bbcd6c233daa000153cc81e')
               br
-              code.text-white .then( response => response.json() )
+              code.text-white &nbsp;&nbsp;.then( response => response.json() )
               br
-              code.text-white .then( jsonResponse => console.log(jsonResponse) )
+              code.text-white &nbsp;&nbsp;.then( jsonResponse => console.log(jsonResponse) )
             h4.mt-4 Ajax request example
             p(class="p-4 bg-dark")
               code.text-white $.ajax('https://cv-mobile-api.herokuapp.com/api/users/5bbcd6c233daa000153cc81e')
               br
-              code.text-white .done( response => console.log(response))
-        .row
+              code.text-white &nbsp;&nbsp;.done( response => console.log(response))
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-1-4") # Add a new user
-            p Lorem ipsum dolor sit amet.
-        .row
+            p To add a new user to the api database it is needed to make a POST request via AJAX.
+            p The main point to be aware of is that you have to create a fomData object in order to send the mixed inputs info its needed to create a user profile.
+            h4.mt-4 Endpoint
+            p(class="p-4 mb-5 bg-light")
+              code.text-danger https://cv-mobile-api.herokuapp.com/api/users
+            h4.mt-4 Creating a formData object.
+            p(class="p-4 bg-dark")
+              code.text-white
+                | function createRequestBody() {
+                br
+                | &nbsp;&nbsp;let formData = new FormData();
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string
+                br
+                | &nbsp;&nbsp;formData.append('name', name.value);
+                |
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string
+                br
+                | &nbsp;&nbsp;formData.append('username', username.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string with email validation
+                br
+                | &nbsp;&nbsp;formData.append('email', email.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string
+                br
+                | &nbsp;&nbsp;formData.append('city', city.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string
+                br
+                | &nbsp;&nbsp;formData.append('country', country.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string
+                br
+                | &nbsp;&nbsp;formData.append('jobTitle', jobTitle.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string
+                br
+                | &nbsp;&nbsp;formData.append('website', website.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string
+                br
+                | &nbsp;&nbsp;formData.append('company', company.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string. Choose a value from below.
+                br
+                | &nbsp;&nbsp;formData.append('experience', experience.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Pick the value from an input(type="date")
+                br
+                | &nbsp;&nbsp;formData.append('birthDate', birthDate.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Pick the value from an input(type="file") that accepts only jpeg and png formats and files under 3MB size
+                br
+                | &nbsp;&nbsp;formData.append('profilePicture', profilePicture.files[0]);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Store all the values selected in the form inside an Array and parse it as a string
+                br
+                | &nbsp;&nbsp;formData.append('languages', JSON.stringify(languagesArray));
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Store all the values selected in the form inside an Array and parse it as a string
+                br
+                | &nbsp;&nbsp;formData.append('skills', JSON.stringify(skillsArray));
+                br
+                br
+                | &nbsp;&nbsp;return formData;
+                br
+                | &nbsp;&nbsp;}
+
+            h4.mt-4 Post request examples
+            p(class="p-4 bg-dark")
+              code.text-white function sendNewUser(e) {
+              br
+              code.text-white &nbsp;&nbsp;e.preventDefault();
+              br
+              code.text-white &nbsp;&nbsp;let formBody = createRequestBody();
+              br
+              br
+              code.text-white &nbsp;&nbsp;fetch('https://cv-mobile-api.herokuapp.com/api/users', {
+              br
+              code.text-white &nbsp;&nbsp;&nbsp;&nbsp;method: 'POST',
+              br
+              code.text-white &nbsp;&nbsp;&nbsp;&nbsp;body: formBody
+              br
+              code.text-white &nbsp;&nbsp;&nbsp;&nbsp;})
+              br
+              code.text-white &nbsp;&nbsp;&nbsp;&nbsp;.then( res => res.json())
+              br
+              code.text-white &nbsp;&nbsp;&nbsp;&nbsp;.then( response => console.log(response));
+              br
+              code.text-white &nbsp;&nbsp;}
+            p(class="mt-4", style="font-size: 1.5rem;")
+             | There is a live example you can use to add users to the database
+             a(href="https://codepen.io/ManuHdez/pen/xygVWV?editors=1011", target="_blank", class="text-danger")  here
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-1-5") # Update data of an existing user
-            p Lorem ipsum dolor sit amet.
-        .row
+            p To update the info of a user inside the database it is needed to make a PUT request via AJAX with the user's id.
+            p It works like the add a new user endpoint, so you have to be again aware to create a fomData object in order to send mixed inputs data.
+            p To avoid changing every users data when sending the request be sure that you send every data the user already have stored or it will be erased after the request.
+            p To do that its recomended to fetch the users info first and then sending the same info but with the values changed where you need it.
+            h4.mt-4 Endpoint example
+            p(class="p-4 mb-5 bg-light")
+              code.text-danger https://cv-mobile-api.herokuapp.com/api/users/5bc0af41aa11020015337942
+            h4.mt-4 Creating a formData object.
+            p(class="p-4 bg-dark")
+              code.text-white
+                | function createRequestBody() {
+                br
+                | &nbsp;&nbsp;let formData = new FormData();
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string
+                br
+                | &nbsp;&nbsp;formData.append('name', name.value);
+                |
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string
+                br
+                | &nbsp;&nbsp;formData.append('username', username.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string with email validation
+                br
+                | &nbsp;&nbsp;formData.append('email', email.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string
+                br
+                | &nbsp;&nbsp;formData.append('city', city.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string
+                br
+                | &nbsp;&nbsp;formData.append('country', country.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string
+                br
+                | &nbsp;&nbsp;formData.append('jobTitle', jobTitle.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string
+                br
+                | &nbsp;&nbsp;formData.append('website', website.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string
+                br
+                | &nbsp;&nbsp;formData.append('company', company.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Sent as a string. Choose a value from below.
+                br
+                | &nbsp;&nbsp;formData.append('experience', experience.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Pick the value from an input(type="date")
+                br
+                | &nbsp;&nbsp;formData.append('birthDate', birthDate.value);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Pick the value from an input(type="file") that accepts only jpeg and png formats and files under 3MB size
+                br
+                | &nbsp;&nbsp;formData.append('profilePicture', profilePicture.files[0]);
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Store all the values selected in the form inside an Array and parse it as a string
+                br
+                | &nbsp;&nbsp;formData.append('languages', JSON.stringify(languagesArray));
+                br
+                br
+                span.text-warning &nbsp;&nbsp;// Store all the values selected in the form inside an Array and parse it as a string
+                br
+                | &nbsp;&nbsp;formData.append('skills', JSON.stringify(skillsArray));
+                br
+                br
+                | &nbsp;&nbsp;return formData;
+                br
+                | &nbsp;&nbsp;}
+
+            h4.mt-4 Post request examples
+            p(class="p-4 bg-dark")
+              code.text-white function sendNewUser(e) {
+              br
+              code.text-white &nbsp;&nbsp;e.preventDefault();
+              br
+              code.text-white &nbsp;&nbsp;let formBody = createRequestBody();
+              br
+              br
+              code.text-white &nbsp;&nbsp;fetch('https://cv-mobile-api.herokuapp.com/api/users/5bc0af41aa11020015337942', {
+              br
+              code.text-white &nbsp;&nbsp;&nbsp;&nbsp;method: 'PUT',
+              br
+              code.text-white &nbsp;&nbsp;&nbsp;&nbsp;body: formBody
+              br
+              code.text-white &nbsp;&nbsp;&nbsp;&nbsp;})
+              br
+              code.text-white &nbsp;&nbsp;&nbsp;&nbsp;.then( res => res.json())
+              br
+              code.text-white &nbsp;&nbsp;&nbsp;&nbsp;.then( response => console.log(response));
+              br
+              code.text-white &nbsp;&nbsp;}
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-1-6") # Delete an existing user
-            p Lorem ipsum dolor sit amet.
+            p To delete a user from the database you just need to now its _id property.
+            p Then just create a DELETE request as explained below.
+            h4.mt-4 Endpoint example
+            p(class="p-4 mb-5 bg-light")
+              code
+                a(target="_blank", href="https://cv-mobile-api.herokuapp.com/api/users/5bbcd6c233daa000153cc81e", class="text-danger") https://cv-mobile-api.herokuapp.com/api/users/5bbcd6c233daa000153cc81e
+            h4.mt-4 Fetch request example
+            p(class="p-4 bg-dark")
+              code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/users/5bbcd6c233daa000153cc81e', {
+              br
+              code.text-white method: 'DELETE'
+              br
+              code.text-white })
+              br
+              code.text-white &nbsp;&nbsp;.then( response => response.json() )
+              br
+              code.text-white &nbsp;&nbsp;.then( jsonResponse => console.log(jsonResponse) )
+            h4.mt-4 Ajax request example
+            p(class="p-4 bg-dark")
+              code.text-white $.ajax('https://cv-mobile-api.herokuapp.com/api/users/5bbcd6c233daa000153cc81e')
+              br
+              code.text-white &nbsp;&nbsp;.done( response => console.log(response))
         h1(class="font-weight-bold display-2 font-weight-bold", id="item-2") Skills
         p.mb-5 Lorem ipsum dolor sit amet.
-        .row
+        h4.mt-3 Skill example
+        p(class="p-4 mb-5 bg-light")
+              code
+                | {
+                br
+                | "name": "html",
+                br
+                | "value": "html",
+                br
+                | "label": "HTML"
+                br
+                | }
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-2-1") # Get skills
             p To get all skills stored in the database its needed a GET request to the url below.
@@ -125,20 +420,34 @@ html(lang="en")
             p(class="p-4 mb-5 bg-light")
               code
                 a(target="_blank", href="https://cv-mobile-api.herokuapp.com/api/skills", class="text-danger") https://cv-mobile-api.herokuapp.com/api/skills
-            h4.mt-4 Post request example
+            h4.mt-4 Get request example
             p(class="p-4 bg-dark")
               code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/skills')
               br
-              code.text-white .then( response => response.json() )
+              code.text-white &nbsp;&nbsp;.then( response => response.json() )
               br
-              code.text-white .then( jsonResponse => console.log(jsonResponse) )
-        .row
+              code.text-white &nbsp;&nbsp;.then( jsonResponse => console.log(jsonResponse) )
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-2-2") # Add a new skill
             p Coming soon...
         h1(class="font-weight-bold display-2 font-weight-bold", id="item-3") Languages
         p.mb-5 Lorem ipsum dolor sit amet.
-        .row
+        h4.mt-3 Language example
+        p(class="p-4 mb-5 bg-light")
+              code
+                | {
+                br
+                | "name": "lang-en",
+                br
+                | "label": "English",
+                br
+                | "value": "english",
+                br
+                | "default": 1,
+                br
+                | }
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-3-1") # Get languages
             p To get all languages stored in the database its needed a GET request to the url below.
@@ -146,13 +455,13 @@ html(lang="en")
             p(class="p-4 mb-5 bg-light")
               code
                 a(target="_blank", href="https://cv-mobile-api.herokuapp.com/api/langs", class="text-danger") https://cv-mobile-api.herokuapp.com/api/langs
-            h4.mt-4 Post request example
+            h4.mt-4 Get request example
             p(class="p-4 bg-dark")
               code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/langs')
               br
-              code.text-white .then( response => response.json() )
+              code.text-white &nbsp;&nbsp;.then( response => response.json() )
               br
-              code.text-white .then( jsonResponse => console.log(jsonResponse) )
+              code.text-white &nbsp;&nbsp;.then( jsonResponse => console.log(jsonResponse) )
         div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-3-2") # Add a new language
