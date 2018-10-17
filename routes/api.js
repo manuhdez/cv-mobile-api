@@ -148,22 +148,26 @@ router.get('/langs', (req, res, next) => {
   res.json([
     {
       name: 'lang-es',
-      label: 'spanish',
-      default: 1
-    },
-    {
-      name: 'lang-en',
-      label: 'english',
+      label: 'Spanish',
+      value: 'spanish',
       default: 0
     },
     {
+      name: 'lang-en',
+      label: 'English',
+      value: 'english',
+      default: 1
+    },
+    {
       name: 'lang-it',
-      label: 'italian',
+      label: 'Italian',
+      value: 'italian',
       default: 0
     },
     {
       name: 'lang-de',
-      label: 'german',
+      label: 'German',
+      value: 'german',
       default: 0
     }
   ]);
@@ -173,50 +177,62 @@ router.get('/skills', (req, res, next) => {
   res.json([
     {
       name: 'html',
+      value: 'html',
       label: 'HTML'
     },
     {
       name: 'css',
+      value: 'css',
       label: 'CSS'
     },
     {
       name: 'sass-less',
+      value: 'sass-less',
       label: 'SASS / LESS'
     },
     {
       name: 'javascript',
+      value: 'javascript',
       label: 'Javascript'
     },
     {
       name: 'jquery',
+      value: 'jquery',
       label: 'jQuery'
     },
     {
       name: 'nodejs',
+      value: 'nodejs',
       label: 'Nodejs'
     },
     {
       name: 'expressjs',
+      value: 'expressjs',
       label: 'Express'
     },
     {
       name: 'mongodb',
+      value: 'mongodb',
       label: 'MongoDB'
     },
     {
       name: 'react',
+      value: 'react',
       label: 'React js'
     },
     {
       name: 'angular',
+      value: 'angular',
       label: 'Angular js'
     },
     {
       name: 'vuejs',
+      value: 'vuejs',
       label: 'Vue js'
     },
     {
       name: 'php',
+      value: 'php',
       label: 'PHP'
     }
   ]);

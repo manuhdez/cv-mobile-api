@@ -36,28 +36,77 @@ html(lang="en")
       div(class="container col-10", data-spy="scroll", data-target="#api-nav", data-offset="0", style="height:100%; overflow-y: scroll;")
         h1(id="item-1", class="display-2 font-weight-bold") Users
         p.mb-5 Users can be listed, created, modified and deleted from the API, but to do so you have to be sure to do it the way it is explained below in this page.
-        .row
+        h4.mt-3 User object example
+        p(class="p-4 mb-5 bg-light")
+              code
+                | {
+                br
+                |   "languages": [
+                |   "english",
+                |   "spanish"
+                |   ],
+                br
+                |   "skills": [
+                |   "html",
+                |   "css",
+                |   "javascript",
+                |   "node",
+                |   "express"
+                |   ],
+                br
+                |   "_id": "5bbcd6c233daa000153cc81e",
+                br
+                |   "name": "Patricia Lebsack",
+                br
+                |   "username": "Kariannes",
+                br
+                |   "email": "Julianne.OConner@kory.com",
+                br
+                |   "gender": "male",
+                br
+                |   "location": {
+                |   "city": "Leith",
+                |   "state": "Edimburg",
+                |   "country": "United Kingdom"
+                |   },
+                br
+                |   "company": "Robel-Corkery",
+                br
+                |   "jobTitle": "Fullstack Developer",
+                br
+                |   "website": "lebsack.info",
+                br
+                |   "birthDate": "1986-02-25T00:00:00.000Z",
+                br
+                |   "experience": "- 1 year",
+                br
+                |   "registeredDate": 1534149132000,
+                br
+                |   "profilePicture": "https://cv-mobile-api.herokuapp.com/uploads/500_9.jpeg",
+                br
+                | }
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-1-1") # Get all users
             p The main functionality of the API is th get the full list of users stored in the database.
             p To get those users you need to to a get request to the url below.
-            h4.mt-4 Endpoint
-            p(class="p-4 mb-5 bg-light")
+            h4.mt-5 Endpoint
+            p(class="p-4 bg-light")
               code
                 a(target="_blank", href="https://cv-mobile-api.herokuapp.com/api/users", class="text-danger") https://cv-mobile-api.herokuapp.com/api/users
-            h4.mt-4 Fetch request example
+            h4.mt-5 Fetch request example
             p(class="p-4 bg-dark")
               code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/users')
               br
-              code.text-white .then( response => response.json() )
+              code.text-white &nbsp;&nbsp;.then( response => response.json() )
               br
-              code.text-white .then( jsonResponse => console.log(jsonResponse) )
-            h4.mt-4 Ajax request example
+              code.text-white &nbsp;&nbsp;.then( jsonResponse => console.log(jsonResponse) )
+            h4.mt-5 Ajax request example
             p(class="p-4 bg-dark")
               code.text-white $.ajax('https://cv-mobile-api.herokuapp.com/api/users')
               br
-              code.text-white .done( response => console.log(response))
-        .row
+              code.text-white &nbsp;&nbsp;.done( response => console.log(response))
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-1-2") # User pagination
             p Sometimes there is no need to fetch all users in one request, instead of it you may prefer to get just a group of users.
@@ -75,15 +124,15 @@ html(lang="en")
             p(class="p-4 bg-dark")
               code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/users/pages/2')
               br
-              code.text-white .then( response => response.json() )
+              code.text-white &nbsp;&nbsp;.then( response => response.json() )
               br
-              code.text-white .then( jsonResponse => console.log(jsonResponse) )
+              code.text-white &nbsp;&nbsp;.then( jsonResponse => console.log(jsonResponse) )
             h4.mt-4 Ajax request example
             p(class="p-4 bg-dark")
               code.text-white $.ajax('https://cv-mobile-api.herokuapp.com/api/users/pages/2')
               br
-              code.text-white .done( response => console.log(response))
-        .row
+              code.text-white &nbsp;&nbsp;.done( response => console.log(response))
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-1-3") # Get user by ID
             p To get the data of a single user you just need to now its _id property.
@@ -95,29 +144,41 @@ html(lang="en")
             p(class="p-4 bg-dark")
               code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/users/5bbcd6c233daa000153cc81e')
               br
-              code.text-white .then( response => response.json() )
+              code.text-white &nbsp;&nbsp;.then( response => response.json() )
               br
-              code.text-white .then( jsonResponse => console.log(jsonResponse) )
+              code.text-white &nbsp;&nbsp;.then( jsonResponse => console.log(jsonResponse) )
             h4.mt-4 Ajax request example
             p(class="p-4 bg-dark")
               code.text-white $.ajax('https://cv-mobile-api.herokuapp.com/api/users/5bbcd6c233daa000153cc81e')
               br
-              code.text-white .done( response => console.log(response))
-        .row
+              code.text-white &nbsp;&nbsp;.done( response => console.log(response))
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-1-4") # Add a new user
             p Lorem ipsum dolor sit amet.
-        .row
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-1-5") # Update data of an existing user
             p Lorem ipsum dolor sit amet.
-        .row
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-1-6") # Delete an existing user
             p Lorem ipsum dolor sit amet.
         h1(class="font-weight-bold display-2 font-weight-bold", id="item-2") Skills
         p.mb-5 Lorem ipsum dolor sit amet.
-        .row
+        h4.mt-3 Skill example
+        p(class="p-4 mb-5 bg-light")
+              code
+                | {
+                br
+                | "name": "html",
+                br
+                | "value": "html",
+                br
+                | "label": "HTML"
+                br
+                | }
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-2-1") # Get skills
             p To get all skills stored in the database its needed a GET request to the url below.
@@ -125,20 +186,34 @@ html(lang="en")
             p(class="p-4 mb-5 bg-light")
               code
                 a(target="_blank", href="https://cv-mobile-api.herokuapp.com/api/skills", class="text-danger") https://cv-mobile-api.herokuapp.com/api/skills
-            h4.mt-4 Post request example
+            h4.mt-4 Get request example
             p(class="p-4 bg-dark")
               code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/skills')
               br
-              code.text-white .then( response => response.json() )
+              code.text-white &nbsp;&nbsp;.then( response => response.json() )
               br
-              code.text-white .then( jsonResponse => console.log(jsonResponse) )
-        .row
+              code.text-white &nbsp;&nbsp;.then( jsonResponse => console.log(jsonResponse) )
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-2-2") # Add a new skill
             p Coming soon...
         h1(class="font-weight-bold display-2 font-weight-bold", id="item-3") Languages
         p.mb-5 Lorem ipsum dolor sit amet.
-        .row
+        h4.mt-3 Language example
+        p(class="p-4 mb-5 bg-light")
+              code
+                | {
+                br
+                | "name": "lang-en",
+                br
+                | "label": "English",
+                br
+                | "value": "english",
+                br
+                | "default": 1,
+                br
+                | }
+        div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-3-1") # Get languages
             p To get all languages stored in the database its needed a GET request to the url below.
@@ -146,13 +221,13 @@ html(lang="en")
             p(class="p-4 mb-5 bg-light")
               code
                 a(target="_blank", href="https://cv-mobile-api.herokuapp.com/api/langs", class="text-danger") https://cv-mobile-api.herokuapp.com/api/langs
-            h4.mt-4 Post request example
+            h4.mt-4 Get request example
             p(class="p-4 bg-dark")
               code.text-white fetch('https://cv-mobile-api.herokuapp.com/api/langs')
               br
-              code.text-white .then( response => response.json() )
+              code.text-white &nbsp;&nbsp;.then( response => response.json() )
               br
-              code.text-white .then( jsonResponse => console.log(jsonResponse) )
+              code.text-white &nbsp;&nbsp;.then( jsonResponse => console.log(jsonResponse) )
         div(class="row" style="min-height: 100%;")
           .container-fluid.mb-5
             h2(class="mb-3 font-weight-bold", id="item-3-2") # Add a new language
