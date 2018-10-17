@@ -69,12 +69,16 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
       languages: JSON.parse(req.body.languages),
       skills: JSON.parse(req.body.skills),
       registeredDate: Date.now(),
-      profilePicture: req.file ? 'https://cv-mobile-api.herokuapp.com/' + req.file.path : 'https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png'
     }
 
-    // if (req.file) {
-    //   newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
-    // }
+    console.log('req.body.profilePicture: ', req.body.profilePicture);
+    console.log('req.file: ',req.file);
+
+    if (req.file && req.file !== undefined) {
+      newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path;
+    } else if (req.file === undefined) {
+      newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png';
+    }
 
     User.create(newUser, function (err, doc) {
       if (err) {
@@ -125,7 +129,7 @@ router.put('/users/:id', upload.single('profilePicture'), (req, res, next) => {
     skills: req.body.skills.slice().split(', '),
   }
 
-  if (req.file) {
+  if (req.file && req.file !== undefined) {
     updatedUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
   }
 
