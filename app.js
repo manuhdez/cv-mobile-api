@@ -4,6 +4,7 @@ import compression from "compression";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import mongoose from "mongoose";
+import path from 'path';
 
 const app = express();
 
@@ -30,7 +31,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // views settings
 app.set("view engine", "pug");
-app.set("views", __dirname + "/views");
+app.set("views", path.join(__dirname, "../views"));
 
 // Database connection
 // mongoose.connect('mongodb://localhost:27017/cv-mobile', {useNewUrlParser: true});

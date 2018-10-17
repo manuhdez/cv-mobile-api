@@ -18,5 +18,8 @@ module.exports = {
         use: { loader: "babel-loader" }
       }
     ]
+  },
+  node: {
+    __dirname: false
   }
 };
