@@ -71,9 +71,6 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
       registeredDate: Date.now(),
     }
 
-    console.log('req.body.profilePicture: ', req.body.profilePicture);
-    console.log('req.file: ',req.file);
-
     if (req.file && req.file !== undefined) {
       newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path;
     } else if (req.file === undefined) {
