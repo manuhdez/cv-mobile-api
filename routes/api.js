@@ -122,8 +122,8 @@ router.put('/users/:id', upload.single('profilePicture'), (req, res, next) => {
     website: req.body.website,
     birthDate: req.body.birthDate,
     experience: req.body.experience,
-    languages: req.body.languages.slice().split(', '),
-    skills: req.body.skills.slice().split(', '),
+    languages: JSON.parse(req.body.languages),
+    skills: JSON.parse(req.body.skills),
   }
 
   if (req.file && req.file !== undefined) {
