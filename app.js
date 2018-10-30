@@ -34,8 +34,7 @@ app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "../views"));
 
 // Database connection
-// mLab => "mongodb://manuhdez:cv-mobile-api@cv-api-cluster-shard-00-00-cif1i.gcp.mongodb.net:27017,cv-api-cluster-shard-00-01-cif1i.gcp.mongodb.net:27017,cv-api-cluster-shard-00-02-cif1i.gcp.mongodb.net:27017/test?ssl=true&replicaSet=cv-api-cluster-shard-0&authSource=admin&retryWrites=true"
-
+// "mongodb://localhost:27017/cv-mobile",
 mongoose.connect(
   "mongodb://manuhdez:cv-mobile-api-2018@ds225703.mlab.com:25703/cv-mobile-api",
   { useNewUrlParser: true }
