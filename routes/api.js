@@ -144,6 +144,25 @@ router.delete('/users/:id', (req, res, next) => {
   });
 });
 
+// COMPANY ROUTES
+// Get all the companies from the database
+router.get('/company', (req, res, next) => {
+  Company.find().then( companies => res.json(companies));
+});
+
+// Get a company by its id
+router.get('/company/:id', (req, res, next) => {
+  Company.findById(req.params.id, function(error, doc) {
+    if (error) return next(error);
+    if (!doc) {
+      const err = new Error('Company not found');
+      err.status = 404;
+      return next(err);
+    }
+    res.json(doc);
+  })
+})
+
 // Languages json
 router.get('/langs', (req, res, next) => {
   res.json([

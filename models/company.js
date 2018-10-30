@@ -15,7 +15,8 @@ const CompanySchema = new Schema({
   logoURL: {type: String, required: true},
   bio: {type: String},
   employees: {type: Number},
-  phone: {type: Number}
+  phone: {type: Number},
+  registeredDate: {type: Number}
 })
 
 const Company = mongoose.model('Company', CompanySchema);

@@ -34,9 +34,9 @@ app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "../views"));
 
 // Database connection
-// mongoose.connect('mongodb://localhost:27017/cv-mobile', {useNewUrlParser: true});
+// "mongodb://manuhdez:cv-mobile-api-2018@ds225703.mlab.com:25703/cv-mobile-api",
 mongoose.connect(
-  "mongodb://manuhdez:cv-mobile-api-2018@ds225703.mlab.com:25703/cv-mobile-api",
+  "mongodb://localhost:27017/cv-mobile",
   { useNewUrlParser: true }
 );
 const db = mongoose.connection;
