@@ -11,6 +11,7 @@ const storage = multer.diskStorage({
     callback(null, new Date().toISOString().replace(/:/g, '_') + file.originalname);
   }
 });
+
 const upload = multer({
   storage: storage,
   limits: {
@@ -28,6 +29,8 @@ const upload = multer({
 // Import database models
 const User = require('../models/user');
 const Company = require('../models/company');
+const Skill = require('../models/skill');
+const Language = require('../models/lang');
 
 router.get('/', (req, res, next) => {
   return res.json({
@@ -258,99 +261,62 @@ router.delete('/company/:id', (req, res, next) => {
   });
 });
 
-// Languages json
+// Languages CRUD
+// Get all languages
 router.get('/langs', (req, res, next) => {
-  res.json([
-    {
-      name: 'lang-es',
-      label: 'Spanish',
-      value: 'spanish',
-      default: 0
-    },
-    {
-      name: 'lang-en',
-      label: 'English',
-      value: 'english',
-      default: 1
-    },
-    {
-      name: 'lang-it',
-      label: 'Italian',
-      value: 'italian',
-      default: 0
-    },
-    {
-      name: 'lang-de',
-      label: 'German',
-      value: 'german',
-      default: 0
-    }
-  ]);
+  Language.find().then( langs => res.json(langs));
 });
 
-router.get('/skills', (req, res, next) => {
-  res.json([
-    {
-      name: 'html',
-      value: 'html',
-      label: 'HTML'
-    },
-    {
-      name: 'css',
-      value: 'css',
-      label: 'CSS'
-    },
-    {
-      name: 'sass-less',
-      value: 'sass-less',
-      label: 'SASS / LESS'
-    },
-    {
-      name: 'javascript',
-      value: 'javascript',
-      label: 'Javascript'
-    },
-    {
-      name: 'jquery',
-      value: 'jquery',
-      label: 'jQuery'
-    },
-    {
-      name: 'nodejs',
-      value: 'nodejs',
-      label: 'Nodejs'
-    },
-    {
-      name: 'expressjs',
-      value: 'expressjs',
-      label: 'Express'
-    },
-    {
-      name: 'mongodb',
-      value: 'mongodb',
-      label: 'MongoDB'
-    },
-    {
-      name: 'react',
-      value: 'react',
-      label: 'React js'
-    },
-    {
-      name: 'angular',
-      value: 'angular',
-      label: 'Angular js'
-    },
-    {
-      name: 'vuejs',
-      value: 'vuejs',
-      label: 'Vue js'
-    },
-    {
-      name: 'php',
-      value: 'php',
-      label: 'PHP'
+// Add a new language to the database
+router.post('/langs', (req, res, next) => {
+  let data = { ...req.body };
+  if (data.name && data.label && data.value && typeof data.default === 'number') {
+    let newLang = {
+      name: data.name,
+      label: data.label,
+      value: data.value,
+      default: data.default
     }
-  ]);
+    Language.create(newLang, (err, doc) => {
+      if (err) return next(err);
+      return res.json(doc);
+    });
+  }
+});
+
+router.delete('/langs/:id', (req, res, next) => {
+  Language.findByIdAndDelete(req.params.id, (err) => {
+    if (err) return next(err);
+    return res.json({message: 'Language successfully deleted.'});
+  });
+});
+
+// Skills CRUD
+// Get all skills
+router.get('/skills', (req, res, next) => {
+  Skill.find().then( skills => res.json(skills));
+});
+
+// Add a new skill
+router.post('/skills', (req, res, next) => {
+  let { name, value, label } = req.body;
+
+  if (name && value && label) {
+    let newSkill = { name, value, label };
+
+    Skill.create(newSkill, (err, doc) => {
+      if (err) return next(err);
+      return res.json(doc);
+    });
+  }
+});
+
+// Delete a skill from db
+router.delete('/skills/:id', (req, res, next) => {
+  Skill.findByIdAndDelete(req.params.id, (err) => {
+    if (err) return next(err);
+    return res.json({message: 'The skill was removed successfully'});
+  });
 });
 
 module.exports = router;
