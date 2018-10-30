@@ -71,19 +71,11 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
       skills: JSON.parse(req.body.skills),
       registeredDate: Date.now(),
     }
-<<<<<<< HEAD
 
     if (req.file && req.file !== undefined) {
-      newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path;
-    } else if (req.file === undefined) {
-      newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png';
-||||||| merged common ancestors
-    if (req.file) {
-      newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
-=======
-    if (req.file) {
       newUser.profilePicture = `${req.protocol}://${req.hostname}/${req.file.path}`;
->>>>>>> release/0.4
+    } else if (req.file === undefined) {
+      newUser.profilePicture = `${req.protocol}://${req.hostname}/uploads/default_avatar.png`;
     }
 
     User.create(newUser, function (err, doc) {
@@ -135,18 +127,10 @@ router.put('/users/:id', upload.single('profilePicture'), (req, res, next) => {
     skills: JSON.parse(req.body.skills),
   }
 
-<<<<<<< HEAD
-  if (req.file && req.file !== undefined) {
-    updatedUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
-||||||| merged common ancestors
-  if (req.file) {
-    updatedUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
-=======
   if (req.file) {
     updatedUser.profilePicture = `${req.protocol}://${req.hostname}/${req.file.path}`;
     // localhost development url
     // updatedUser.profilePicture = `${req.protocol}://${req.hostname}:${port}/${req.file.path}`;
->>>>>>> release/0.4
   }
 
   User.findByIdAndUpdate( req.params.id, updatedUser, function (err, doc) {
