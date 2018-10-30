@@ -1,5 +1,5 @@
-const Schema  = require('mongoose').Schema;
-const model = require('mongoose').model;
+const mongoose  = require('mongoose');
+const Schema = mongoose.Schema;
 
 const SkillSchema = new Schema({
   name: {type: String, required: true},
@@ -7,6 +7,6 @@ const SkillSchema = new Schema({
   label: {type: String, required: true}
 });
 
-const Skill = model('Skill', SkillSchema);
+const Skill = mongoose.model('Skill', SkillSchema);
 
 module.exports = Skill;
