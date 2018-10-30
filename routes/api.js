@@ -28,6 +28,7 @@ const upload = multer({
 // Import database models
 const User = require('../models/user');
 const Company = require('../models/company');
+const Skill = require('../models/skill');
 
 router.get('/', (req, res, next) => {
   return res.json({
@@ -285,8 +286,38 @@ router.get('/langs', (req, res, next) => {
   ]);
 });
 
+// Skills CRUD
+// Get all skills
 router.get('/skills', (req, res, next) => {
-  res.json([
+  Skill.find().then( skills => res.json(skills));
+});
+
+// Add a new skill
+router.post('/skills', (req, res, next) => {
+  let { name, value, label } = req.body;
+
+  if (name && value && label) {
+    let newSkill = { name, value, label };
+
+    Skill.create(newSkill, (err, doc) => {
+      if (err) return next(err);
+      return res.json(doc);
+    });
+  }
+});
+
+// Delete a skill from db
+router.delete('/skills/:id', (req, res, next) => {
+  Skill.findByIdAndDelete(req.params.id, (err) => {
+    if (err) return next(err);
+    return res.json({message: 'The skill was removed successfully'});
+  });
+});
+
+module.exports = router;
+
+/*
+res.json([
     {
       name: 'html',
       value: 'html',
@@ -347,7 +378,4 @@ router.get('/skills', (req, res, next) => {
       value: 'php',
       label: 'PHP'
     }
-  ]);
-});
-
-module.exports = router;
+    */
