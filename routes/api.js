@@ -27,6 +27,7 @@ const upload = multer({
 
 // Import database models
 const User = require('../models/user');
+const Company = require('../models/company');
 
 router.get('/', (req, res, next) => {
   return res.json({
