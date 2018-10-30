@@ -11,12 +11,3 @@ const LanguageSchema = new Schema({
 const Language = mongoose.model('Language', LanguageSchema);
 
 module.exports = Language;
-
-/*
-  {
-    name: 'lang-es',
-    label: 'Spanish',
-    value: 'spanish',
-    default: 0
-  }
-*/
