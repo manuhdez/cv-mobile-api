@@ -72,7 +72,7 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
       registeredDate: Date.now()
     }
     if (req.file) {
-      newUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
+      newUser.profilePicture = `${req.protocol}://${req.hostname}/${req.file.path}`;
     }
 
     User.create(newUser, function (err, doc) {
@@ -84,7 +84,7 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
     });
   } else {
     res.json({
-      error: 'All required data was not sent'
+      error: 'Not all required data was sent'
     });
   }
 });
@@ -125,7 +125,9 @@ router.put('/users/:id', upload.single('profilePicture'), (req, res, next) => {
   }
 
   if (req.file) {
-    updatedUser.profilePicture = 'https://cv-mobile-api.herokuapp.com/' + req.file.path
+    updatedUser.profilePicture = `${req.protocol}://${req.hostname}/${req.file.path}`;
+    // localhost development url
+    // updatedUser.profilePicture = `${req.protocol}://${req.hostname}:${port}/${req.file.path}`;
   }
 
   User.findByIdAndUpdate( req.params.id, updatedUser, function (err, doc) {
@@ -162,6 +164,96 @@ router.get('/company/:id', (req, res, next) => {
     res.json(doc);
   })
 })
+
+// Add a new company to the database
+router.post('/company', upload.single('logoURL'), (req, res, next) => {
+  // Validate the required fields have been sent
+  if (req.body.name && req.body.email && req.body.CIF && req.body.country) {
+
+    let { name, CIF, email, website, country, street, city, zipcode, socialUrls, bio, employees, phone  } = req.body;
+    const newCompany = {
+      name,
+      CIF,
+      email,
+      website,
+      address: {
+        country,
+        street,
+        city,
+        zipcode,
+      },
+      socialUrls,
+      bio,
+      employees,
+      phone,
+      registeredDate: Date.now()
+    }
+
+    if (req.file) {
+      let port = process.env.PORT || 3000
+      newCompany.logoURL = `${req.protocol}://${req.hostname}/${req.file.path}`;
+      // localhost development url
+      // newCompany.logoURL = `${req.protocol}://${req.hostname}:${port}/${req.file.path}`;
+    }
+
+    Company.create( newCompany, (err, doc) => {
+      if (err) return next(err);
+      return res.json(doc);
+    });
+
+  } else {
+    res.json({error: 'Not all required data was sent'});
+  }
+
+})
+
+// Update a company info by its id
+router.put('/company/:id', upload.single('logoURL'), (req, res, next) => {
+
+  // Download original company info
+  Company.findById(req.params.id, (err, doc) => {
+    if (err) return next(err);
+    if (!doc) {
+      const error = new Error('The user your trying to modify does not exist.');
+      error.status = 404;
+      return next(error);
+    }
+
+    let { country, city, street, zipcode, ...values } = req.body;
+
+    let newAddress = {
+      country: country !== undefined ? country : doc.address.country,
+      city: city !== undefined ? city : doc.address.city,
+      street: street !== undefined ? street : doc.address.street,
+      zipcode: zipcode !== undefined ? zipcode : doc.address.zipcode,
+    };
+
+    let updatedCompany = {
+      ...values,
+      address: {...newAddress}
+    }
+
+    if (req.file) {
+      let port = process.env.PORT || 3000
+      updatedCompany.logoURL = `${req.protocol}://${req.hostname}/${req.file.path}`;
+      // localhost development url
+      // updatedCompany.logoURL = `${req.protocol}://${req.hostname}:${port}/${req.file.path}`;
+    }
+
+    Company.findByIdAndUpdate(req.params.id, updatedCompany, (err, doc) => {
+      if (err) return next(err);
+      return res.json({status: 'Success', fieldsUpdated: updatedCompany});
+    })
+  });
+});
+
+// Delete a company profile by its id
+router.delete('/company/:id', (req, res, next) => {
+  Company.findByIdAndDelete(req.params.id, (err) => {
+    if (err) return next(err);
+    res.json({message: 'Company profile succesfully deleted.'})
+  });
+});
 
 // Languages json
 router.get('/langs', (req, res, next) => {
