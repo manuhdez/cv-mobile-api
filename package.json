@@ -10,9 +10,9 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node dist/app.bundle.js",
     "dev:start": "cross-env NODE_ENV=development nodemon dist/app.bundle.js",
-    "build": "webpack --mode production --config webpack.config.js",
-    "dev:build": "webpack --mode development --config webpack.config.js",
-    "watch": "webpack --mode development --config webpack.config.js --watch",
+    "build": "cross-env NODE_ENV=production webpack --mode production --config webpack.config.js",
+    "dev:build": "cross-env NODE_ENV=development webpack --mode development --config webpack.config.js",
+    "watch": "cross-env NODE_ENV=development webpack --mode development --config webpack.config.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "manuhdez",
