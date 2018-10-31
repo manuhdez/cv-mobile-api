@@ -1,4 +1,5 @@
 const nodeExternals = require("webpack-node-externals");
+const NodemonPlugin = require("nodemon-webpack-plugin"); // Ding
 const path = require("path");
 
 module.exports = {
@@ -21,5 +22,6 @@ module.exports = {
   },
   node: {
     __dirname: false
-  }
+  },
+  plugins: [new NodemonPlugin()]
 };

@@ -4,7 +4,7 @@ import compression from "compression";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import mongoose from "mongoose";
-import path from 'path';
+import path from "path";
 
 const app = express();
 
@@ -34,9 +34,14 @@ app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "../views"));
 
 // Database connection
+let mongoURI =
+  process.env.NODE_ENV === "development"
+    ? "mongodb://localhost:27017/cv-mobile"
+    : "mongodb://manuhdez:cv-mobile-api-2018@ds225703.mlab.com:25703/cv-mobile-api";
+
+console.log(process.env.NODE_ENV, mongoURI);
 mongoose.connect(
-  // "mongodb://localhost:27017/cv-mobile",
-  "mongodb://manuhdez:cv-mobile-api-2018@ds225703.mlab.com:25703/cv-mobile-api",
+  mongoURI,
   { useNewUrlParser: true }
 );
 

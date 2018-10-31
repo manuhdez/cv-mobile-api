@@ -1,43 +1,43 @@
 {
-	"name": "cv-mobile-api",
-	"version": "1.0.0",
-	"description": "",
-	"main": "app.js",
-	"engines": {
-		"node": "8.9.0",
-		"npm": "6.4.1"
-	},
-	"scripts": {
-		"start": "node app.js",
-		"build:run": "cross-env NODE_ENV=production node dist/app.bundle.js",
-		"build": "webpack --mode production --config webpack.config.js",
-		"dev:build": "webpack --mode development --config webpack.config.js",
-		"dev:watch": "webpack --mode development --config webpack.config.js --watch",
-		"dev:start": "cross-env NODE_ENV=development nodemon dist/app.bundle.js",
-		"watch": "npm-run-all -p dev:watch dev:start",
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"author": "manuhdez",
-	"license": "MIT",
-	"dependencies": {
-		"body-parser": "^1.18.3",
-		"compression": "^1.7.3",
-		"cross-env": "^5.2.0",
-		"express": "^4.16.3",
-		"helmet": "^3.14.0",
-		"mongoose": "^5.3.2",
-		"morgan": "^1.9.1",
-		"multer": "^1.4.0",
-		"pug": "^2.0.3"
-	},
-	"devDependencies": {
-		"@babel/core": "^7.1.2",
-		"babel-loader": "^8.0.4",
-		"babel-plugin-transform-object-rest-spread": "^7.0.0-beta.3",
-		"babel-preset-env": "^1.7.0",
-		"npm-run-all": "^4.1.3",
-		"webpack": "^4.20.2",
-		"webpack-cli": "^3.1.2",
-		"webpack-node-externals": "^1.7.2"
-	}
+  "name": "cv-mobile-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "engines": {
+    "node": "8.9.0",
+    "npm": "6.4.1"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node dist/app.bundle.js",
+    "dev:start": "cross-env NODE_ENV=development nodemon dist/app.bundle.js",
+    "build": "cross-env NODE_ENV=production webpack --mode production --config webpack.config.js",
+    "dev:build": "cross-env NODE_ENV=development webpack --mode development --config webpack.config.js",
+    "watch": "cross-env NODE_ENV=development webpack --mode development --config webpack.config.js --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "manuhdez",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "cross-env": "^5.2.0",
+    "express": "^4.16.3",
+    "helmet": "^3.14.0",
+    "mongoose": "^5.3.2",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.0",
+    "pug": "^2.0.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "babel-loader": "^8.0.4",
+    "babel-plugin-transform-object-rest-spread": "^7.0.0-beta.3",
+    "@babel/plugin-proposal-async-generator-functions": "^7.1.0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "babel-preset-env": "^1.7.0",
+    "nodemon-webpack-plugin": "^4.0.3",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-node-externals": "^1.7.2"
+  }
 }
