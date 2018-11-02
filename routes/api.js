@@ -31,6 +31,7 @@ const User = require('../models/user');
 const Company = require('../models/company');
 const Skill = require('../models/skill');
 const Language = require('../models/lang');
+const Survey = require('../models/survey');
 
 router.get('/', (req, res, next) => {
   return res.json({
@@ -316,6 +317,41 @@ router.delete('/skills/:id', (req, res, next) => {
   Skill.findByIdAndDelete(req.params.id, (err) => {
     if (err) return next(err);
     return res.json({message: 'The skill was removed successfully'});
+  });
+});
+
+// SURVEYS routes
+// Get all surveys
+router.get('/surveys', (req, res, next) => {
+  Survey.find({}, (err, doc) => {
+    if (err) return next(err);
+    return res.json(doc);
+  });
+});
+
+// Add a new survey
+router.post('/surveys', (req, res, next) => {
+  let { header, elements } = req.body;
+
+  let newSurvey = { header, elements };
+
+  Survey.create(newSurvey, (err, doc) => {
+    if (err) return next(err);
+    if (!doc) {
+      const error = new Error('Something failed while trying to create the new survey');
+      error.status = 404;
+      return next(error);
+    }
+    return res.json(doc);
+  });
+});
+
+
+// Delete a survey
+router.delete('/surveys/:id', (req, res, next) => {
+  Survey.findByIdAndDelete(req.params.id, (err) => {
+    if (err) return next(err);
+    return res.json({message: 'Survey entry successfully removed'});
   });
 });
 

@@ -23,27 +23,3 @@ const CompanySchema = new Schema({
 const Company = mongoose.model('Company', CompanySchema);
 
 module.exports = Company;
-
-/*
-{
-        "id": 1,
-        "name": " Canarias Smart",
-        "CIF": "J1535131E",
-        "email": "Sincere@april.biz",
-        "address": {
-            "country": "Spain",
-            "street": "Kulas Light",
-            "city": "Lebsackbury",
-            "zipcode": "92998-3874"
-        },
-        "socialnetworks": {
-            "twitter": "https://www.google.com/",
-            "linkedin": "https://www.google.com/",
-            "youtube": "https://www.google.com/"
-        },
-        "logo": "/assets/images/kisspng-windows-7-windows-vista-logo-microsoft-windows-logos-5ab719c342adc2.6952612015219491232731.jpg",
-        "descripcion": "Software development services with a high standard",
-        "workersNumber": 10,
-        "phone": "1-770-736-806442"
-    },
-    */
