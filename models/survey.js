@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const SurveySchema = new Schema({
   header: {
     title: {type: String, required: true},
-    subtitle: {type: String, required: true},
+    subtitle: {type: String},
     startDate: {type: Number, required: true},
     endDate: {type: Number, required: true},
     description: {type: String, required: true}
@@ -13,8 +13,16 @@ const SurveySchema = new Schema({
   elements: [
     {
       type: {type: String, required: true},
-      title: {type: String, required: true},
-      values: {type: [String], required: true},
+      label: {type: String, required: true},
+      name: {type: String, required: true},
+      placeholder: {type: String},
+      values: [
+        {
+          name: {type: String, required: true},
+          label: {type: String, required: true},
+          value: {type: String, required: true}
+        }
+      ],
     }
   ]
 });
