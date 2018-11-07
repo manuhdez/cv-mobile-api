@@ -32,9 +32,6 @@ app.use(morgan(loggerFormat));
 app.use("/uploads", express.static("uploads"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// views settings
-app.set("view engine", "pug");
-app.set("views", path.join(__dirname, "../views"));
 
 // Database connection
 let mongoURI =
@@ -73,8 +70,12 @@ app.use((req, res, next) => {
 });
 
 // Server Routes
-app.get("/", (req, res) => {
-  res.render("index");
+app.get('/', (req, res) => {
+  res.redirect('/docs');
+});
+
+app.get("/docs", (req, res) => {
+  res.sendfile("views/docs.html");
 });
 
 const apiRoutes = require("./routes/api");
