@@ -35,45 +35,43 @@ const Survey = require('../models/survey');
 
 router.get('/', (req, res, next) => {
   return res.json({
-    message: 'This is the api endpoint'
+    welcome: 'There is a list with useful links',
+    links: {
+      users: `${req.protocol}://${(req.hostname === 'localhost' ? 'localhost:3000' : req.hostname)}/api/users`,
+      skills: `${req.protocol}://${(req.hostname === 'localhost' ? 'localhost:3000' : req.hostname)}/api/skills`,
+      languages: `${req.protocol}://${(req.hostname === 'localhost' ? 'localhost:3000' : req.hostname)}/api/langs`,
+      companies: `${req.protocol}://${(req.hostname === 'localhost' ? 'localhost:3000' : req.hostname)}/api/companies`,
+      jobOffers: `${req.protocol}://${(req.hostname === 'localhost' ? 'localhost:3000' : req.hostname)}/api/jobOffers`,
+      surveys: `${req.protocol}://${(req.hostname === 'localhost' ? 'localhost:3000' : req.hostname)}/api/surveys`,
+    }
   });
 });
 
 // Get all users
 router.get('/users', (req, res, next) => {
-  User.find().then( users => res.json(users));
+  User
+    .find()
+    .then( users => res.json(users));
 });
 
 // Get a page with 10 users
 router.get('/users/pages/:pageId', (req, res, next) => {
-  User.find()
-  .skip((req.params.pageId - 1) * 10)
-  .limit(10)
-  .then( users => res.json(users));
+  User
+    .find()
+    .skip((req.params.pageId - 1) * 10)
+    .limit(10)
+    .then( users => res.json(users));
 });
 
 // Add a new user to the database
 router.post('/users', upload.single('profilePicture'), (req, res, next) => {
+  let { name, username, email, phoneNumber, gender, address, company,
+    jobTitle, website, birthDate, experience, languages, skills } = req.body;
 
-  if (req.body.name && req.body.email && req.body.username) {
+  if (name && email && username) {
     const newUser = {
-      name: req.body.name,
-      username: req.body.username,
-      email: req.body.email,
-      gender: req.body.gender,
-      location: {
-        "city": req.body.city,
-        "state": req.body.state,
-        "country": req.body.country
-      },
-      company: req.body.company,
-      jobTitle: req.body.jobTitle,
-      website: req.body.website,
-      birthDate: req.body.birthDate,
-      experience: req.body.experience,
-      languages: JSON.parse(req.body.languages),
-      skills: JSON.parse(req.body.skills),
-      registeredDate: Date.now(),
+      name, username, email, phoneNumber, gender, address, company,
+      jobTitle, website, birthDate, experience, languages, skills
     }
 
     if (req.file && req.file !== undefined) {
@@ -82,74 +80,49 @@ router.post('/users', upload.single('profilePicture'), (req, res, next) => {
       newUser.profilePicture = `${req.protocol}://${req.hostname}/uploads/default_avatar.png`;
     }
 
-    User.create(newUser, function (err, doc) {
-      if (err) {
-        return next(err);
-      } else {
-        return res.json(doc);
-      }
+    User.create(newUser, function (err, user) {
+      if (err) return next(err);
+      return res.json(user);
     });
+
   } else {
-    res.json({
-      error: 'Not all required data was sent'
-    });
+    res.json({ error: 'Name, username and email properties are required.' });
   }
 });
 
 // Get a users info by id
 router.get('/users/:id', (req, res, next) => {
-  User.findById( req.params.id, function (err, doc) {
-    if (err) return next(err);
-    if (!doc) {
-      const error = new Error('User not found');
-      error.status = 404;
-      return next(error);
-    }
-    res.json(doc);
-  });
+  User
+    .findById(req.params.id)
+    .populate('skills')
+    .populate('languages')
+    .exec( (err, user) => {
+      if (err) return next(err);
+      res.json(user);
+    });
 });
 
 // Update a users info by its id
 router.put('/users/:id', upload.single('profilePicture'), (req, res, next) => {
+  let updatedUser = { ...req.body };
 
-  const updatedUser = {
-    name: req.body.name,
-    username: req.body.username,
-    email: req.body.email,
-    gender: req.body.gender,
-    location: {
-      "city": req.body.city,
-      "state": req.body.state,
-      "country": req.body.country
-    },
-    company: req.body.company,
-    jobTitle: req.body.jobTitle,
-    website: req.body.website,
-    birthDate: req.body.birthDate,
-    experience: req.body.experience,
-    languages: JSON.parse(req.body.languages),
-    skills: JSON.parse(req.body.skills),
-  }
-
-  if (req.file) {
+  if (req.file && req.file !== undefined) {
     updatedUser.profilePicture = `${req.protocol}://${req.hostname}/${req.file.path}`;
-    // localhost development url
-    // updatedUser.profilePicture = `${req.protocol}://${req.hostname}:${port}/${req.file.path}`;
   }
 
-  User.findByIdAndUpdate( req.params.id, updatedUser, function (err, doc) {
-    if (err) return next(err);
-    res.json(updatedUser);
-  });
+  User
+    .findByIdAndUpdate(req.params.id, updatedUser)
+    .exec( (err) => {
+      if (err) return next(err);
+      res.redirect(`/api/users/${req.params.id}`);
+    });
 });
 
 // Delete a user by id
 router.delete('/users/:id', (req, res, next) => {
   User.findByIdAndRemove(req.params.id, function (err) {
     if (err) return next(err);
-    res.json({
-      message: 'The user was successfully removed'
-    })
+    res.redirect(`/api/users/`);
   });
 });
 
@@ -270,15 +243,9 @@ router.get('/langs', (req, res, next) => {
 
 // Add a new language to the database
 router.post('/langs', (req, res, next) => {
-  let data = { ...req.body };
-  if (data.name && data.label && data.value && typeof data.default === 'number') {
-    let newLang = {
-      name: data.name,
-      label: data.label,
-      value: data.value,
-      default: data.default
-    }
-    Language.create(newLang, (err, doc) => {
+  let { label } = req.body
+  if (label) {
+    Language.create({label}, (err, doc) => {
       if (err) return next(err);
       return res.json(doc);
     });
@@ -300,10 +267,10 @@ router.get('/skills', (req, res, next) => {
 
 // Add a new skill
 router.post('/skills', (req, res, next) => {
-  let { name, value, label } = req.body;
+  let { type, label } = req.body;
 
-  if (name && value && label) {
-    let newSkill = { name, value, label };
+  if (type && label) {
+    let newSkill = { type, label };
 
     Skill.create(newSkill, (err, doc) => {
       if (err) return next(err);
