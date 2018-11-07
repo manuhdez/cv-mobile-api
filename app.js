@@ -5,11 +5,14 @@ import bodyParser from "body-parser";
 import helmet from "helmet";
 import mongoose from "mongoose";
 import path from "path";
+import expressGa from  "express-ga-middleware";
 
 const app = express();
 
 // Server configuration
 app.use(helmet());
+// Google analytics middleware
+app.use(expressGa('UA-127831712-2'));
 // Compress the coming requests
 app.use(compression({ filter: shouldCompress }));
 
