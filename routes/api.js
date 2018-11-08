@@ -86,4 +86,9 @@ router.get('/surveys', surveys.get)
 router.post('/surveys', surveys.add)
 router.delete('/surveys/:id', surveys.delete)
 
+// SUMMARIES ROUTES
+import summaries from './summaries';
+router.get('/summaries', summaries.get);
+router.get('/summaries/:origin', summaries.getByOrigin);
+
 module.exports = router;

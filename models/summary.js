@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const SummarySchema = new Schema({
-  fromSurvey: {type: String, required: true},
+  origin: {type: Schema.Types.ObjectId, ref: 'Survey', required: true},
+  originTitle: {type: String, required: true},
   totalAnswers: Number,
   answers: [{
     question: String,
