@@ -48,84 +48,15 @@ router.get('/', (req, res, next) => {
   });
 });
 
-// Get all users
-router.get('/users', (req, res, next) => {
-  User
-    .find()
-    .then( users => res.json(users));
-});
+// USER ROUTES
+import usersRoute from './users';
+router.get('/users', usersRoute.getAll);
+router.get('/users/pages/:pageId', usersRoute.getPage);
+router.post('/users', upload.single('profilePicture'), usersRoute.addUser);
+router.get('/users/:id', usersRoute.getById);
+router.put('/users/:id', upload.single('profilePicture'), usersRoute.updateUser);
+router.delete('/users/:id', usersRoute.deleteUser);
 
-// Get a page with 10 users
-router.get('/users/pages/:pageId', (req, res, next) => {
-  User
-    .find()
-    .skip((req.params.pageId - 1) * 10)
-    .limit(10)
-    .then( users => res.json(users));
-});
-
-// Add a new user to the database
-router.post('/users', upload.single('profilePicture'), (req, res, next) => {
-  let { name, username, email, phoneNumber, gender, address, company,
-    jobTitle, website, birthDate, experience, languages, skills } = req.body;
-
-  if (name && email && username) {
-    const newUser = {
-      name, username, email, phoneNumber, gender, address, company,
-      jobTitle, website, birthDate, experience, languages, skills
-    }
-
-    if (req.file && req.file !== undefined) {
-      newUser.profilePicture = `${req.protocol}://${req.hostname}/${req.file.path}`;
-    } else if (req.file === undefined) {
-      newUser.profilePicture = `${req.protocol}://${req.hostname}/uploads/default_avatar.png`;
-    }
-
-    User.create(newUser, function (err, user) {
-      if (err) return next(err);
-      return res.json(user);
-    });
-
-  } else {
-    res.json({ error: 'Name, username and email properties are required.' });
-  }
-});
-
-// Get a users info by id
-router.get('/users/:id', (req, res, next) => {
-  User
-    .findById(req.params.id)
-    .populate('skills')
-    .populate('languages')
-    .exec( (err, user) => {
-      if (err) return next(err);
-      res.json(user);
-    });
-});
-
-// Update a users info by its id
-router.put('/users/:id', upload.single('profilePicture'), (req, res, next) => {
-  let updatedUser = { ...req.body };
-
-  if (req.file && req.file !== undefined) {
-    updatedUser.profilePicture = `${req.protocol}://${req.hostname}/${req.file.path}`;
-  }
-
-  User
-    .findByIdAndUpdate(req.params.id, updatedUser)
-    .exec( (err) => {
-      if (err) return next(err);
-      res.redirect(`/api/users/${req.params.id}`);
-    });
-});
-
-// Delete a user by id
-router.delete('/users/:id', (req, res, next) => {
-  User.findByIdAndRemove(req.params.id, function (err) {
-    if (err) return next(err);
-    res.redirect(`/api/users/`);
-  });
-});
 
 // COMPANY ROUTES
 // Get all the companies from the database
