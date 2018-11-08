@@ -3,22 +3,25 @@ const Schema = mongoose.Schema;
 
 const CompanySchema = new Schema({
   name: {type: String, required: true, unique: true},
-  CIF: {type: Number, required: true, unique: true},
+  docType: {type: String, required: true},
+  docNumber: {type: String, required: true, unique: true},
   email: {type: String, required: true, unique: true, trim: true},
-  website: {type: String, trim: true},
+  website: {type: String, trim: true, unique: true},
   address: {
     country: {type: String, required: true},
     street: {type: String},
     city: {type: String},
     zipcode: {type: Number},
   },
-  socialUrls: {type: Object},
-  logoURL: {type: String, required: true, trim: true},
+  socialUrls: [Object],
+  logoURL: {type: String, trim: true},
   bio: {type: String},
   employees: {type: Number},
   phone: {type: Number},
-  registeredDate: {type: Number},
-  // jobOffers: [{}]
+  registeredDate: {type: Date, default: Date.now},
+  jobOffers: [
+      {type: Schema.Types.ObjectId, ref: 'JobOffer'}
+  ]
 })
 
 const Company = mongoose.model('Company', CompanySchema);
