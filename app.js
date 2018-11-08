@@ -4,7 +4,6 @@ import compression from "compression";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import mongoose from "mongoose";
-import path from "path";
 import expressGa from  "express-ga-middleware";
 
 const app = express();
@@ -32,9 +31,6 @@ app.use(morgan(loggerFormat));
 app.use("/uploads", express.static("uploads"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// views settings
-app.set("view engine", "pug");
-app.set("views", path.join(__dirname, "../views"));
 
 // Database connection
 let mongoURI =
@@ -73,11 +69,15 @@ app.use((req, res, next) => {
 });
 
 // Server Routes
-app.get("/", (req, res) => {
-  res.render("index");
+app.get('/', (req, res) => {
+  res.redirect('/docs');
 });
 
-const apiRoutes = require("./routes/api");
+app.get("/docs", (req, res) => {
+  res.sendfile("views/docs.html");
+});
+
+import apiRoutes from './routes/api';
 app.use("/api", apiRoutes);
 
 // Middleware

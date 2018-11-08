@@ -6,8 +6,8 @@ const SurveySchema = new Schema({
   header: {
     title: {type: String, required: true},
     subtitle: {type: String},
-    startDate: {type: Number, required: true},
-    endDate: {type: Number, required: true},
+    startDate: {type: Date, default: Date.now},
+    endDate: {type: Date, required: true},
     description: {type: String, required: true}
   },
   elements: [
