@@ -23,14 +23,12 @@ exports.add = (req, res, next) => {
   let { name, username, email, phone, gender, address, company,
     jobTitle, website, birthDate, experience, languages, skills } = req.body;
 
-  let parsedAddress = JSON.parse(address);
-  let parsedLangs = JSON.parse(languages);
-  let parsedSkills = JSON.parse(skills);
+    console.log(req.body);
 
   if (name && email && username) {
     const newUser = {
-      name, username, email, phone, gender, parsedAddress, company,
-      jobTitle, website, birthDate, experience, parsedLangs, parsedSkills
+      name, username, email, phone, gender, address, company,
+      jobTitle, website, birthDate, experience, languages, skills
     }
 
     if (req.file && req.file !== undefined) {

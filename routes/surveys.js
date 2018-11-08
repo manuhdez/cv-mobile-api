@@ -15,6 +15,7 @@ exports.add = (req, res, next) => {
 
   Survey.create(newSurvey, (err, survey) => {
     if (err) return next(err);
+    // let answers = survey.elements.forEach( element)
     Summary.create({
       origin: survey._id,
       originTitle: survey.header.title,
