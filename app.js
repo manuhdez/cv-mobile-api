@@ -4,7 +4,6 @@ import compression from "compression";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import mongoose from "mongoose";
-import path from "path";
 import expressGa from  "express-ga-middleware";
 
 const app = express();
@@ -78,7 +77,7 @@ app.get("/docs", (req, res) => {
   res.sendfile("views/docs.html");
 });
 
-const apiRoutes = require("./routes/api");
+import apiRoutes from './routes/api';
 app.use("/api", apiRoutes);
 
 // Middleware

@@ -19,7 +19,7 @@ exports.getPage = (req, res, next) => {
 };
 
 // Add a new user to the database
-exports.addUser = (req, res, next) => {
+exports.add = (req, res, next) => {
   let { name, username, email, phoneNumber, gender, address, company,
     jobTitle, website, birthDate, experience, languages, skills } = req.body;
 
@@ -58,7 +58,7 @@ exports.getById = (req, res, next) => {
 };
 
 // Update a user by its id
-exports.updateUser = (req, res, next) => {
+exports.update = (req, res, next) => {
   let updatedUser = { ...req.body };
 
   if (req.file && req.file !== undefined) {
@@ -74,7 +74,7 @@ exports.updateUser = (req, res, next) => {
 };
 
 // Delete a user by id
-exports.deleteUser = (req, res, next) => {
+exports.delete = (req, res, next) => {
   User.findByIdAndRemove(req.params.id, function (err) {
     if (err) return next(err);
     res.redirect(`/api/users/`);
