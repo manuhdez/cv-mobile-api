@@ -28,9 +28,10 @@ const upload = multer({
 
 // Import database models
 const User = require('../models/user');
-const Company = require('../models/company');
 const Skill = require('../models/skill');
 const Language = require('../models/lang');
+const Company = require('../models/company');
+import Offer from '../models/offer';
 const Survey = require('../models/survey');
 
 router.get('/', (req, res, next) => {
@@ -128,58 +129,59 @@ router.delete('/users/:id', (req, res, next) => {
 
 // COMPANY ROUTES
 // Get all the companies from the database
-router.get('/company', (req, res, next) => {
-  Company.find().then( companies => res.json(companies));
+router.get('/companies', (req, res, next) => {
+
+  Company
+    .find()
+    .then( companies => res.json(companies));
 });
 
 // Get a company by its id
-router.get('/company/:id', (req, res, next) => {
-  Company.findById(req.params.id, function(error, doc) {
-    if (error) return next(error);
-    if (!doc) {
-      const err = new Error('Company not found');
-      err.status = 404;
-      return next(err);
-    }
-    res.json(doc);
-  })
+router.get('/companies/:id', (req, res, next) => {
+
+  Company
+    .findById(req.params.id)
+    .populate('jobOffers')
+    .exec( (error, company) => {
+      if (error) return next(error);
+      if (!company) {
+        const err = new Error('Company not found');
+        err.status = 404;
+        return next(err);
+      }
+      res.json(company);
+    })
 })
 
 // Add a new company to the database
-router.post('/company', upload.single('logoURL'), (req, res, next) => {
-  // Validate the required fields have been sent
-  if (req.body.name && req.body.email && req.body.CIF && req.body.country) {
+router.post('/companies', upload.single('logoURL'), (req, res, next) => {
 
-    let { name, CIF, email, website, country, street, city, zipcode, socialUrls, bio, employees, phone  } = req.body;
+  let { name, docType, docNumber, email, website, address, socialUrls, bio, employees, phone, jobOffers } = req.body;
+
+  if (name && email && docType && docNumber && address.country) {
     const newCompany = {
       name,
-      CIF,
+      docType,
+      docNumber,
       email,
       website,
-      address: {
-        country,
-        street,
-        city,
-        zipcode,
-      },
+      address,
       socialUrls,
       bio,
       employees,
       phone,
-      registeredDate: Date.now()
+      jobOffers
     }
 
-    if (req.file) {
-      let port = process.env.PORT || 3000
+    if (req.file && req.file !== undefined) {
       newCompany.logoURL = `${req.protocol}://${req.hostname}/${req.file.path}`;
-      // localhost development url
-      // newCompany.logoURL = `${req.protocol}://${req.hostname}:${port}/${req.file.path}`;
     }
 
-    Company.create( newCompany, (err, doc) => {
-      if (err) return next(err);
-      return res.json(doc);
-    });
+    Company
+      .create(newCompany, (err, company) => {
+        if (err) return next(err);
+        return res.json(company);
+      });
 
   } else {
     res.json({error: 'Not all required data was sent'});
@@ -188,47 +190,24 @@ router.post('/company', upload.single('logoURL'), (req, res, next) => {
 })
 
 // Update a company info by its id
-router.put('/company/:id', upload.single('logoURL'), (req, res, next) => {
+router.put('/companies/:id', upload.single('logoURL'), (req, res, next) => {
+  let updateData = { ...req.body };
 
-  // Download original company info
-  Company.findById(req.params.id, (err, doc) => {
-    if (err) return next(err);
-    if (!doc) {
-      const error = new Error('The user your trying to modify does not exist.');
-      error.status = 404;
-      return next(error);
-    }
+  if (req.file) {
+    updateData.logoURL = `${req.protocol}://${req.hostname}/${req.file.path}`;
+  }
 
-    let { country, city, street, zipcode, ...values } = req.body;
-
-    let newAddress = {
-      country: country !== undefined ? country : doc.address.country,
-      city: city !== undefined ? city : doc.address.city,
-      street: street !== undefined ? street : doc.address.street,
-      zipcode: zipcode !== undefined ? zipcode : doc.address.zipcode,
-    };
-
-    let updatedCompany = {
-      ...values,
-      address: {...newAddress}
-    }
-
-    if (req.file) {
-      let port = process.env.PORT || 3000
-      updatedCompany.logoURL = `${req.protocol}://${req.hostname}/${req.file.path}`;
-      // localhost development url
-      // updatedCompany.logoURL = `${req.protocol}://${req.hostname}:${port}/${req.file.path}`;
-    }
-
-    Company.findByIdAndUpdate(req.params.id, updatedCompany, (err, doc) => {
+  Company
+    .findByIdAndUpdate(req.params.id, updateData)
+    .exec((err) => {
       if (err) return next(err);
-      return res.json({status: 'Success', fieldsUpdated: updatedCompany});
+      return res.redirect(`/api/companies/${req.params.id}`);
     })
-  });
+
 });
 
 // Delete a company profile by its id
-router.delete('/company/:id', (req, res, next) => {
+router.delete('/companies/:id', (req, res, next) => {
   Company.findByIdAndDelete(req.params.id, (err) => {
     if (err) return next(err);
     res.json({message: 'Company profile succesfully deleted.'})
@@ -319,6 +298,52 @@ router.delete('/surveys/:id', (req, res, next) => {
   Survey.findByIdAndDelete(req.params.id, (err) => {
     if (err) return next(err);
     return res.json({message: 'Survey entry successfully removed'});
+  });
+});
+
+// JOB OFFER CRUD
+// Get all offers
+router.get('/offers', (req, res) => {
+  Offer
+    .find()
+    .then( offers => res.json(offers));
+});
+
+router.get('/offers/:id', (req, res, next) => {
+  Offer.findById(req.params.id, (err, offer) => {
+    if (err) return next(err);
+    res.json(offer);
+  })
+});
+
+router.post('/offers', (req, res, next) => {
+  let { title, position, vacancies, description, companyEmail } = req.body;
+
+  const newOffer = {
+    title,
+    position,
+    vacancies,
+    description,
+    companyEmail
+  }
+
+  Offer.create(newOffer, (err, offer) => {
+    if (err) return next(err);
+    // Push the offer into the correspondant company
+    Company
+      .findOneAndUpdate({email: companyEmail}, {$push: {jobOffers: offer._id}})
+      .then( () => res.json(offer));
+  });
+});
+
+router.delete('/offers/:id', (req, res, next) => {
+
+  Offer.findByIdAndDelete(req.params.id, (err, offer) => {
+    if (err) return next(err);
+    Company
+      .findOneAndUpdate({email: offer.companyEmail}, {$pull: {jobOffers: offer._id}})
+      .then( (company) => res.redirect(`/api/companies/${company._id}`))
+      .catch( err => next(err));
   });
 });
 
