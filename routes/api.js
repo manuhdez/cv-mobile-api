@@ -50,15 +50,6 @@ router.get('/users/:id', users.getById);
 router.put('/users/:id', upload.single('profilePicture'), users.update);
 router.delete('/users/:id', users.delete);
 
-
-// COMPANIES CRUD
-import companies from './companies';
-router.get('/companies', companies.getAll)
-router.post('/companies', upload.single('logoURL'), companies.add)
-router.get('/companies/:id', companies.getById)
-router.put('/companies/:id', upload.single('logoURL'), companies.update)
-router.delete('/companies/:id', companies.delete)
-
 // LANGS CRUD
 import langs from './langs';
 router.get('/langs', langs.getAll)
@@ -73,12 +64,13 @@ router.post('/skills', skills.add)
 router.get('/skills/:id', skills.getById)
 router.delete('/skills/:id', skills.delete)
 
-// SURVEYS CRUD
-// TEST:
-import surveys from './surveys';
-router.get('/surveys', surveys.get)
-router.post('/surveys', surveys.add)
-router.delete('/surveys/:id', surveys.delete)
+// COMPANIES CRUD
+import companies from './companies';
+router.get('/companies', companies.getAll)
+router.post('/companies', upload.single('logoURL'), companies.add)
+router.get('/companies/:id', companies.getById)
+router.put('/companies/:id', upload.single('logoURL'), companies.update)
+router.delete('/companies/:id', companies.delete)
 
 // JOB OFFER CRUD
 import offers from './offers';
@@ -86,5 +78,12 @@ router.get('/offers', offers.get);
 router.post('/offers', offers.add);
 router.get('/offers/:id', offers.getById);
 router.delete('/offers/:id', offers.delete);
+
+// SURVEYS CRUD
+// TEST:
+import surveys from './surveys';
+router.get('/surveys', surveys.get)
+router.post('/surveys', surveys.add)
+router.delete('/surveys/:id', surveys.delete)
 
 module.exports = router;
