@@ -20,13 +20,17 @@ exports.getPage = (req, res, next) => {
 
 // Add a new user to the database
 exports.add = (req, res, next) => {
-  let { name, username, email, phoneNumber, gender, address, company,
+  let { name, username, email, phone, gender, address, company,
     jobTitle, website, birthDate, experience, languages, skills } = req.body;
+
+  let parsedAddress = JSON.parse(address);
+  let parsedLangs = JSON.parse(languages);
+  let parsedSkills = JSON.parse(skills);
 
   if (name && email && username) {
     const newUser = {
-      name, username, email, phoneNumber, gender, address, company,
-      jobTitle, website, birthDate, experience, languages, skills
+      name, username, email, phone, gender, parsedAddress, company,
+      jobTitle, website, birthDate, experience, parsedLangs, parsedSkills
     }
 
     if (req.file && req.file !== undefined) {
@@ -41,7 +45,7 @@ exports.add = (req, res, next) => {
     });
 
   } else {
-    res.json({ error: 'Name, username and email properties are required.' });
+    res.json({ error: 'Name, username, email and country properties are required.' });
   }
 };
 

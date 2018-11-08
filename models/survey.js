@@ -15,10 +15,8 @@ const SurveySchema = new Schema({
       type: {type: String, required: true},
       label: {type: String, required: true},
       name: {type: String, required: true},
-      placeholder: {type: String},
       values: [
         {
-          name: {type: String, required: true},
           label: {type: String, required: true},
           value: {type: String, required: true}
         }

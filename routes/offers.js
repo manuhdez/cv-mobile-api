@@ -36,6 +36,28 @@ exports.add = (req, res, next) => {
   });
 };
 
+// exports.update = (req, res, next) => {
+//   let { id, dir } = req.params;
+//   let updatedVacancies;
+
+//   Offer
+//     .findById(id)
+//     .then( offer => {
+//       if (dir == 'down') {
+//         offer.vacancies >= 1
+//           ? updatedVacancies = offer.vacancies - 1
+//           : updatedVacancies = 0;
+//       } else if (dir == 'up') {
+//         updatedVacancies = offer.vacancies + 1;
+//       }
+//       console.log(updatedVacancies)
+//     })
+//     .update({_id: offer._id}, {$set: {vacancies: updatedVacancies}})
+//     .then( offer => res.json(offer))
+//     .catch( err => next(err));
+
+// }
+
 exports.delete = (req, res, next) => {
 
   Offer.findByIdAndDelete(req.params.id, (err, offer) => {

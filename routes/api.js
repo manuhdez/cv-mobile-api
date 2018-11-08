@@ -78,10 +78,10 @@ import offers from './offers';
 router.get('/offers', offers.get);
 router.post('/offers', offers.add);
 router.get('/offers/:id', offers.getById);
+// router.get('/offers/:id/:dir', offers.update);
 router.delete('/offers/:id', offers.delete);
 
 // SURVEYS CRUD
-// TEST:
 import surveys from './surveys';
 router.get('/surveys', surveys.get)
 router.post('/surveys', surveys.add)
