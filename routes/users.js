@@ -23,25 +23,19 @@ exports.add = (req, res, next) => {
   let { name, username, email, phone, gender, address, company,
     jobTitle, website, birthDate, experience, languages, skills } = req.body;
 
-    console.log(req.body);
+  let defaultAvatar = `${req.protocol}://${req.hostname}/uploads/default_avatar.png`;
 
-  if (name && email && username) {
+  if (name && email && username && address.country) {
     const newUser = {
       name, username, email, phone, gender, address, company,
-      jobTitle, website, birthDate, experience, languages, skills
-    }
-
-    if (req.file && req.file !== undefined) {
-      newUser.profilePicture = `${req.protocol}://${req.hostname}/${req.file.path}`;
-    } else if (req.file === undefined) {
-      newUser.profilePicture = `${req.protocol}://${req.hostname}/uploads/default_avatar.png`;
+      jobTitle, website, birthDate, experience, languages, skills,
+      avatar: defaultAvatar
     }
 
     User.create(newUser, function (err, user) {
       if (err) return next(err);
       return res.json(user);
     });
-
   } else {
     res.json({ error: 'Name, username, email and country properties are required.' });
   }
@@ -63,21 +57,17 @@ exports.getById = (req, res, next) => {
 exports.update = (req, res, next) => {
   let updatedUser = { ...req.body };
 
-  if (req.file && req.file !== undefined) {
-    updatedUser.profilePicture = `${req.protocol}://${req.hostname}/${req.file.path}`;
-  }
-
   User
-    .findByIdAndUpdate(req.params.id, updatedUser)
-    .exec( (err) => {
+    .findByIdAndUpdate(req.params.id, updatedUser, {new: true})
+    .exec( (err, user) => {
       if (err) return next(err);
-      res.redirect(`/api/users/${req.params.id}`);
+      res.json(user);
     });
 };
 
 // Delete a user by id
 exports.delete = (req, res, next) => {
-  User.findByIdAndRemove(req.params.id, function (err) {
+  User.findByIdAndRemove(req.params.id, (err) => {
     if (err) return next(err);
     res.redirect(`/api/users/`);
   });
