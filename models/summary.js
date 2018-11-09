@@ -7,8 +7,12 @@ const SummarySchema = new Schema({
   totalAnswers: Number,
   answers: [{
     question: String,
-    value: String,
-    total: Number
+    options: [
+      {
+        value: {type: String, required: true},
+        count: Number
+      }
+    ]
   }]
 });
 

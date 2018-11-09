@@ -1,5 +1,5 @@
 import Company from '../models/company';
-
+import Offer from '../models/offer';
 
 // Get all the companies from the database
 exports.getAll = (req, res, next) => {
@@ -23,6 +23,7 @@ exports.getById = (req, res, next) => {
 exports.add = (req, res, next) => {
 
   let { name, docType, docNumber, email, website, address, socialUrls, bio, employees, phone, jobOffers } = req.body;
+  let defaultLogo = `${req.protocol}://${req.hostname}/uploads/default_avatar.png`;
 
   if (name && email && docType && docNumber && address.country) {
     const newCompany = {
@@ -36,11 +37,8 @@ exports.add = (req, res, next) => {
       bio,
       employees,
       phone,
-      jobOffers
-    }
-
-    if (req.file && req.file !== undefined) {
-      newCompany.logoURL = `${req.protocol}://${req.hostname}/${req.file.path}`;
+      jobOffers,
+      logo: defaultLogo
     }
 
     Company
@@ -59,23 +57,28 @@ exports.add = (req, res, next) => {
 exports.update = (req, res, next) => {
   let updateData = { ...req.body };
 
-  if (req.file) {
-    updateData.logoURL = `${req.protocol}://${req.hostname}/${req.file.path}`;
-  }
-
   Company
     .findByIdAndUpdate(req.params.id, updateData)
-    .exec((err) => {
+    .exec((err, company) => {
       if (err) return next(err);
-      return res.redirect(`/api/companies/${req.params.id}`);
+      if (updateData.email) {
+        Offer
+          .update({companyEmail: company.email}, {companyEmail: updateData.email})
+          .then( () => res.json(company))
+          .catch( err => next(err));
+      }
+      res.json(company);
     })
 
 };
 
 // Delete a company profile by its id
 exports.delete = (req, res, next) => {
-  Company.findByIdAndDelete(req.params.id, (err) => {
+  Company.findByIdAndDelete(req.params.id, (err, company) => {
     if (err) return next(err);
-    res.json({message: 'Company profile succesfully deleted.'})
+    Offer
+      .deleteMany({companyEmail: company.email})
+      .then( () => res.redirect('/api/companies'))
+      .catch( err => next(err));
   });
 };

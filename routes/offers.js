@@ -27,13 +27,22 @@ exports.add = (req, res, next) => {
     companyEmail
   }
 
-  Offer.create(newOffer, (err, offer) => {
-    if (err) return next(err);
-    // Push the offer into the correspondant company
-    Company
-      .findOneAndUpdate({email: companyEmail}, {$push: {jobOffers: offer._id}})
-      .then( () => res.json(offer));
-  });
+  // Check if the email sent belong to an existing company
+  Company
+    .find({email: companyEmail})
+    .then( doc => {
+      console.log('doc: ', doc.length);
+      if (doc.length === 0) return res.json({message: 'Please use an existing company email'});
+
+      Offer.create(newOffer, (err, offer) => {
+        if (err) return next(err);
+        Company
+          .findOneAndUpdate({email: companyEmail}, {$push: {jobOffers: offer._id}})
+          .then( () => res.json(offer))
+          .catch( err => next(err));
+      });
+    })
+    .catch( err => next(err));
 };
 
 exports.delete = (req, res, next) => {

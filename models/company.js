@@ -13,11 +13,16 @@ const CompanySchema = new Schema({
     city: {type: String},
     zipcode: {type: Number},
   },
-  socialUrls: [Object],
-  logoURL: {type: String, trim: true},
+  socialUrls: [
+    {
+      platform: String,
+      url: String
+    }
+  ],
+  logo: {type: String, trim: true},
   bio: {type: String},
   employees: {type: Number},
-  phone: {type: Number},
+  phone: {type: String},
   registeredDate: {type: Date, default: Date.now},
   jobOffers: [
       {type: Schema.Types.ObjectId, ref: 'JobOffer'}
