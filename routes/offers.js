@@ -27,36 +27,23 @@ exports.add = (req, res, next) => {
     companyEmail
   }
 
-  Offer.create(newOffer, (err, offer) => {
-    if (err) return next(err);
-    // Push the offer into the correspondant company
-    Company
-      .findOneAndUpdate({email: companyEmail}, {$push: {jobOffers: offer._id}})
-      .then( () => res.json(offer));
-  });
+  // Check if the email sent belong to an existing company
+  Company
+    .find({email: companyEmail})
+    .then( doc => {
+      console.log('doc: ', doc.length);
+      if (doc.length === 0) return res.json({message: 'Please use an existing company email'});
+
+      Offer.create(newOffer, (err, offer) => {
+        if (err) return next(err);
+        Company
+          .findOneAndUpdate({email: companyEmail}, {$push: {jobOffers: offer._id}})
+          .then( () => res.json(offer))
+          .catch( err => next(err));
+      });
+    })
+    .catch( err => next(err));
 };
-
-// exports.update = (req, res, next) => {
-//   let { id, dir } = req.params;
-//   let updatedVacancies;
-
-//   Offer
-//     .findById(id)
-//     .then( offer => {
-//       if (dir == 'down') {
-//         offer.vacancies >= 1
-//           ? updatedVacancies = offer.vacancies - 1
-//           : updatedVacancies = 0;
-//       } else if (dir == 'up') {
-//         updatedVacancies = offer.vacancies + 1;
-//       }
-//       console.log(updatedVacancies)
-//     })
-//     .update({_id: offer._id}, {$set: {vacancies: updatedVacancies}})
-//     .then( offer => res.json(offer))
-//     .catch( err => next(err));
-
-// }
 
 exports.delete = (req, res, next) => {
 
