@@ -99,6 +99,6 @@ router.get('/summaries/:origin', summaries.getByOrigin);
 
 // FILES
 import files from './files';
-router.post('/files/upload/:type/:id', upload.single('url'), files.uploadFile);
+router.post('/files/upload/:type/:id', upload.single('img'), files.uploadFile);
 
 module.exports = router;

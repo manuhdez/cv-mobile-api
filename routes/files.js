@@ -12,7 +12,7 @@ exports.uploadFile = (req, res, next) => {
   }
 
   File
-    .findByIdAndDelete(id)
+    .deleteOne({model: id})
     .then( () => {
 
     File.create(newFile, (err, doc) => {
