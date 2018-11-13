@@ -36,9 +36,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 let mongoURI =
   process.env.NODE_ENV === "development"
     ? "mongodb://localhost:27017/cv-mobile"
-    : "mongodb://manuhdez:cv-mobile-api-2018@ds225703.mlab.com:25703/cv-mobile-api";
+    : `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
 
-console.log(process.env.NODE_ENV, mongoURI);
 mongoose.connect(
   mongoURI,
   { useNewUrlParser: true }

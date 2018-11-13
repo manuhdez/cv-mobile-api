@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const SummarySchema = new Schema({
   origin: {type: Schema.Types.ObjectId, ref: 'Survey', required: true},
-  originTitle: {type: String, required: true},
+  title: {type: String, required: true},
   totalAnswers: Number,
   answers: [{
     question: String,
