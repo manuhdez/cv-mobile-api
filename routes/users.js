@@ -9,7 +9,7 @@ exports.getAll = (req, res, next) => {
       } else {
         return res
           .status(404)
-          .json({ success: false, error: "Not users found in database" });
+          .json({ success: false, error: "Not users found in the database" });
       }
     })
     .catch(err => next(err));

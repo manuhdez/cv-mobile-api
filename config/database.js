@@ -15,9 +15,11 @@ if (process.env.NODE_ENV === "development") {
   }:${process.env.DB_PORT}/${process.env.DB_NAME}`;
 }
 
+console.log("MONGO URI: ", mongoURI);
+
 const options = {
-  autoIndex: false,
-  reconnectTries: Number.MAX_VALUE,
+  autoIndex: process.env.NODE_ENV === "development",
+  reconnectTries: Number.MAX_SAFE_INTEGER,
   reconnectInterval: 500,
   poolSize: 10,
   bufferMaxEntries: 0,

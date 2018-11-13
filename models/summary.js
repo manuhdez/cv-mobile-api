@@ -1,21 +1,20 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import mongoose, { Schema } from "mongoose";
 
 const SummarySchema = new Schema({
-  origin: {type: Schema.Types.ObjectId, ref: 'Survey', required: true},
-  originTitle: {type: String, required: true},
+  origin: { type: Schema.Types.ObjectId, ref: "Survey", required: true },
+  originTitle: { type: String, required: true },
   totalAnswers: Number,
-  answers: [{
-    question: String,
-    options: [
-      {
-        value: {type: String, required: true},
-        count: Number
-      }
-    ]
-  }]
+  answers: [
+    {
+      question: String,
+      options: [
+        {
+          value: { type: String, required: true },
+          count: Number
+        }
+      ]
+    }
+  ]
 });
 
-const Summary = mongoose.model('Summary', SummarySchema);
-
-export default Summary;
+export default mongoose.model("Summary", SummarySchema);

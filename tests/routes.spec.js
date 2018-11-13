@@ -1,6 +1,7 @@
 import fetch from "node-fetch";
 import mongoose from "mongoose";
 import dbConnection from "../config/database";
+import Models from "../models/";
 
 const BASE_URL = "http://localhost:3000";
 
@@ -9,12 +10,20 @@ function cleanDatabase(done) {
     .then(() => {
       console.log("CONNECTING SUCCESFULLY TO THE DATABASE");
       mongoose.set("debug", true);
-      mongoose.connection.db.dropDatabase();
-      done();
+      mongoose.connection.dropDatabase();
+      ensureDatabaseIndexes(done);
     })
-    .catch(err =>
-      console.error("AN ERROR HAPPENED ON DATABASE CONNECTION: " + err)
-    );
+    .catch(err => done(err));
+}
+
+function ensureDatabaseIndexes(done) {
+  Models.forEach(schema => {
+    schema.createIndexes(err => {
+      if (err) return done(err);
+    });
+  });
+
+  done();
 }
 
 function checkSecurityHeaders(headers) {
@@ -46,7 +55,9 @@ describe("API REST ROUTES", () => {
 
   describe("Database without information", () => {
     test("Should return a 404 error when there are no users in the database", async () => {
-      const response = await fetch(BASE_URL + "/api/users", { method: "GET" });
+      const response = await fetch(BASE_URL + "/api/users", {
+        method: "GET"
+      });
       const jsonResponse = await response.json();
       const { url, status, statusText, headers } = response;
 
@@ -61,7 +72,29 @@ describe("API REST ROUTES", () => {
 
       expect(jsonResponse).toMatchObject({
         success: false,
-        error: "Not users found in database"
+        error: "Not users found in the database"
+      });
+    });
+
+    test("Should return a 404 error when there are no companies in the database", async () => {
+      const response = await fetch(BASE_URL + "/api/companies", {
+        method: "GET"
+      });
+      const jsonResponse = await response.json();
+      const { url, status, statusText, headers } = response;
+
+      checkSecurityHeaders(headers);
+
+      expect(status).toBe(404);
+      expect(statusText).toMatch("Not Found");
+      expect(url).toMatch(BASE_URL + "/api/companies");
+
+      //expect(users).toHaveLength(0);
+      expect(headers.get(["content-type"])).toMatch("application/json");
+
+      expect(jsonResponse).toMatchObject({
+        success: false,
+        error: "Not companies found in the database"
       });
     });
   });
