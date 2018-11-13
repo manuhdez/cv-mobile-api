@@ -19,29 +19,37 @@ exports.getByOrigin = (req, res, next) => {
 }
 
 exports.updateSummary = (req, res, next) => {
-  // Recibir un objeto con las respuestas al formulario
-  let userResponse = {...req.body}
-  // Buscar a que valores corresponden esas respuestas y sumarles 1 al resultado
+  let userRes = { ...req.body };
+
   Summary.find({origin: req.params.origin})
     .then( sum => {
-      let { _id, origin, title, totalAnswers, answers, } = sum[0];
+      let { totalAnswers, answers } = sum[0];
 
-      let updatedAnswers = [];
+      let questionsToUpdate = [];
+      userRes.questions.forEach( (question) => {
+        let coinc = answers.findIndex( answer => answer.question === question);
+        questionsToUpdate.push(coinc);
+      });
+
+      let updatedAnswers = answers.slice(0);
+
+      questionsToUpdate.forEach( (ans, index) => {
+        updatedAnswers[ans].options.forEach( option => {
+          if (option.value === userRes.answers[index]) {
+            option.count += 1;
+          }
+        })
+      });
 
       let updatedSummary = {
-        _id,
-        origin,
-        title,
         totalAnswers: totalAnswers += 1,
         answers: updatedAnswers
       }
-      // updatedSummary.totalAnswers = parseInt(updatedSummary.totalAnswers) + 1;
-      res.json(updatedSummary);
-      // updatedSummary.answers.forEach( answer => {
 
-      // })
+      Summary.update({origin: req.params.origin}, updatedSummary, {new: true})
+        .then( summary => res.json(summary))
+        .catch( err => next(err));
     })
     .catch( err => next(err));
-  // Guardar el resumen actualizado en mongodb
 
 }
