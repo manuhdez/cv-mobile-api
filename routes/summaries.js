@@ -20,6 +20,7 @@ exports.getByOrigin = (req, res, next) => {
 
 exports.updateSummary = (req, res, next) => {
   let userRes = { ...req.body };
+  console.log(userRes)
 
   Summary.find({origin: req.params.origin})
     .then( sum => {

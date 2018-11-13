@@ -5,11 +5,15 @@ import bodyParser from "body-parser";
 import helmet from "helmet";
 import mongoose from "mongoose";
 import expressGa from  "express-ga-middleware";
+import cors from 'cors';
 
 const app = express();
 
+require('dotenv').config()
 // Server configuration
 app.use(helmet());
+// CORS Managing
+app.use(cors());
 // Google analytics middleware
 app.use(expressGa('UA-127831712-2'));
 // Compress the coming requests
@@ -53,19 +57,6 @@ db.on("open", () => {
   console.log("Mongodb connected successfully");
 });
 
-// CORS Managing
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-    return res.status(200).json({});
-  }
-  next();
-});
 
 // Server Routes
 app.get('/', (req, res) => {
