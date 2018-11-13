@@ -4,14 +4,15 @@ import compression from "compression";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import mongoose from "mongoose";
-import expressGa from  "express-ga-middleware";
+import expressGa from "express-ga-middleware";
+import dbConnection from "./config/database";
 
 const app = express();
 
 // Server configuration
 app.use(helmet());
 // Google analytics middleware
-app.use(expressGa('UA-127831712-2'));
+app.use(expressGa("UA-127831712-2"));
 // Compress the coming requests
 app.use(compression({ filter: shouldCompress }));
 
@@ -32,28 +33,6 @@ app.use("/uploads", express.static("uploads"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Database connection
-let mongoURI =
-  process.env.NODE_ENV === "development"
-    ? "mongodb://localhost:27017/cv-mobile"
-    : "mongodb://manuhdez:cv-mobile-api-2018@ds225703.mlab.com:25703/cv-mobile-api";
-
-console.log(process.env.NODE_ENV, mongoURI);
-mongoose.connect(
-  mongoURI,
-  { useNewUrlParser: true }
-);
-
-const db = mongoose.connection;
-
-db.on("error", err => {
-  console.error("Mongodb connection error:", err);
-});
-
-db.on("open", () => {
-  console.log("Mongodb connected successfully");
-});
-
 // CORS Managing
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -69,15 +48,15 @@ app.use((req, res, next) => {
 });
 
 // Server Routes
-app.get('/', (req, res) => {
-  res.redirect('/docs');
+app.get("/", (req, res) => {
+  res.redirect("/docs");
 });
 
 app.get("/docs", (req, res) => {
   res.sendfile("views/docs.html");
 });
 
-import apiRoutes from './routes/api';
+import apiRoutes from "./routes/api";
 app.use("/api", apiRoutes);
 
 // Middleware
@@ -98,12 +77,19 @@ app.use((err, req, res, next) => {
 
 // Run server
 const port = process.env.PORT || 3000;
-app.listen(port, error => {
-  error
-    ? process.exit(error)
-    : console.log(`App listening on 'http://localhost:${port}'...
+
+dbConnection
+  .then(() => {
+    console.log("CONNECTED TO MONGODB WITH SUCCESS!");
+
+    app.listen(port, error => {
+      error
+        ? process.exit(error)
+        : console.log(`App listening on 'http://localhost:${port}'...
            ---
            Running on ${process.env.NODE_ENV}
            ---
       `);
-});
+    });
+  })
+  .catch(err => "AN ERROR HAPPENED ON CONNECTION: " + console.error(err));
