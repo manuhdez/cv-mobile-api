@@ -6,11 +6,16 @@ import helmet from "helmet";
 import mongoose from "mongoose";
 import expressGa from "express-ga-middleware";
 import dbConnection from "./config/database";
+import cors from 'cors';
+
 
 const app = express();
 
+require('dotenv').config()
 // Server configuration
 app.use(helmet());
+// CORS Managing
+app.use(cors());
 // Google analytics middleware
 app.use(expressGa("UA-127831712-2"));
 // Compress the coming requests
@@ -33,18 +38,25 @@ app.use("/uploads", express.static("uploads"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// CORS Managing
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-    return res.status(200).json({});
-  }
-  next();
+// Database connection
+let mongoURI =
+  process.env.NODE_ENV === "development"
+    ? "mongodb://localhost:27017/cv-mobile"
+    : `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+
+mongoose.connect(
+  mongoURI,
+  { useNewUrlParser: true }
+);
+
+const db = mongoose.connection;
+
+db.on("error", err => {
+  console.error("Mongodb connection error:", err);
+});
+
+db.on("open", () => {
+  console.log("Mongodb connected successfully");
 });
 
 // Server Routes

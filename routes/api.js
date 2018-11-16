@@ -96,6 +96,7 @@ router.delete('/surveys/:id', surveys.delete)
 import summaries from './summaries';
 router.get('/summaries', summaries.get);
 router.get('/summaries/:origin', summaries.getByOrigin);
+router.put('/summaries/:origin', summaries.updateSummary);
 
 // FILES
 import files from './files';

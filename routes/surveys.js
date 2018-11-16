@@ -15,13 +15,28 @@ exports.add = (req, res, next) => {
 
   Survey.create(newSurvey, (err, survey) => {
     if (err) return next(err);
-    // let answers = survey.elements.forEach( element)
-    Summary.create({
+
+    let newSummary = {
       origin: survey._id,
-      originTitle: survey.header.title,
+      title: survey.header.title,
       totalAnswers: 0,
       answers: []
-    }, (err) => {
+    }
+
+    survey.elements.forEach( element => {
+      let answer = {
+        question: element.label,
+        options: []
+      }
+      element.values.forEach( value => answer.options.push({
+        value: value.label,
+        count: 0
+      }));
+
+      newSummary.answers.push(answer);
+    });
+
+    Summary.create(newSummary, (err) => {
       if (err) return next(err);
       return res.json(survey);
     })

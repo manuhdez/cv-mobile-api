@@ -1,8 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
 const SummarySchema = new Schema({
-  origin: { type: Schema.Types.ObjectId, ref: "Survey", required: true },
-  originTitle: { type: String, required: true },
+
+  origin: {type: Schema.Types.ObjectId, ref: 'Survey', required: true},
+  title: {type: String, required: true},
   totalAnswers: Number,
   answers: [
     {
