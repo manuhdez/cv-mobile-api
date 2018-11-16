@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import mongoose, { Schema } from "mongoose";
 
 const FileSchema = new Schema({
   url: String,
@@ -7,6 +6,4 @@ const FileSchema = new Schema({
   model: String
 });
 
-const File = mongoose.model('File', FileSchema);
-
-module.exports = File;
+export default mongoose.model("File", FileSchema);

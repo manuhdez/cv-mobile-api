@@ -4,8 +4,10 @@ import compression from "compression";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import mongoose from "mongoose";
-import expressGa from  "express-ga-middleware";
+import expressGa from "express-ga-middleware";
+import dbConnection from "./config/database";
 import cors from 'cors';
+
 
 const app = express();
 
@@ -15,7 +17,7 @@ app.use(helmet());
 // CORS Managing
 app.use(cors());
 // Google analytics middleware
-app.use(expressGa('UA-127831712-2'));
+app.use(expressGa("UA-127831712-2"));
 // Compress the coming requests
 app.use(compression({ filter: shouldCompress }));
 
@@ -57,17 +59,16 @@ db.on("open", () => {
   console.log("Mongodb connected successfully");
 });
 
-
 // Server Routes
-app.get('/', (req, res) => {
-  res.redirect('/docs');
+app.get("/", (req, res) => {
+  res.redirect("/docs");
 });
 
 app.get("/docs", (req, res) => {
   res.sendfile("views/docs.html");
 });
 
-import apiRoutes from './routes/api';
+import apiRoutes from "./routes/api";
 app.use("/api", apiRoutes);
 
 // Middleware
@@ -88,12 +89,19 @@ app.use((err, req, res, next) => {
 
 // Run server
 const port = process.env.PORT || 3000;
-app.listen(port, error => {
-  error
-    ? process.exit(error)
-    : console.log(`App listening on 'http://localhost:${port}'...
+
+dbConnection
+  .then(() => {
+    console.log("CONNECTED TO MONGODB WITH SUCCESS!");
+
+    app.listen(port, error => {
+      error
+        ? process.exit(error)
+        : console.log(`App listening on 'http://localhost:${port}'...
            ---
            Running on ${process.env.NODE_ENV}
            ---
       `);
-});
+    });
+  })
+  .catch(err => "AN ERROR HAPPENED ON CONNECTION: " + console.error(err));
