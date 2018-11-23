@@ -59,6 +59,7 @@ describe("API REST ROUTES", () => {
         method: "GET"
       });
       const jsonResponse = await response.json();
+      console.log(jsonResponse)
       const { url, status, statusText, headers } = response;
 
       checkSecurityHeaders(headers);
