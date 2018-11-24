@@ -23,7 +23,7 @@ const UserSchema = new Schema({
   ],
   experience: String,
   birthDate: Date,
-  website: {type: String, trim: true},
+  website: {type: String, trim: true, unique: true, sparse: true},
   avatar: {type: String, trim: true},
   registeredDate: {type: Date, default:Date.now}
 });
