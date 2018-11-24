@@ -34,10 +34,10 @@ exports.add = (req, res, next) => {
 
     User.create(newUser, function (err, user) {
       if (err) return next(err);
-      return res.json(user);
+      return res.status(200).json(user);
     });
   } else {
-    res.status(200).json({ error: 'Name, username, email and country properties are required.' });
+    res.status(500).json({ error: 'Name, username, email and country properties are required.' });
   }
 };
 
