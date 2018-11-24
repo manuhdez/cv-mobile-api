@@ -4,7 +4,7 @@ import User from '../models/user';
 // Fetch all stored users
 exports.getAll = (req, res, next) => {
   User.find()
-  .then( users => res.json(users))
+  .then( users => res.status(200).json(users))
   .catch( err => next(err));
 };
 
@@ -14,7 +14,7 @@ exports.getPage = (req, res, next) => {
     .find()
     .skip((req.params.pageId - 1) * 10)
     .limit(10)
-    .then( users => res.json(users))
+    .then( users => res.status(200).json(users))
     .catch( err => next(err));
 };
 
@@ -37,7 +37,7 @@ exports.add = (req, res, next) => {
       return res.json(user);
     });
   } else {
-    res.json({ error: 'Name, username, email and country properties are required.' });
+    res.status(200).json({ error: 'Name, username, email and country properties are required.' });
   }
 };
 
@@ -49,7 +49,7 @@ exports.getById = (req, res, next) => {
     .populate('languages')
     .exec( (err, user) => {
       if (err) return next(err);
-      res.json(user);
+      res.status(200).json(user);
     });
 };
 
@@ -61,7 +61,7 @@ exports.update = (req, res, next) => {
     .findByIdAndUpdate(req.params.id, updatedUser, {new: true})
     .exec( (err, user) => {
       if (err) return next(err);
-      res.json(user);
+      res.status(200).json(user);
     });
 };
 
@@ -69,6 +69,6 @@ exports.update = (req, res, next) => {
 exports.delete = (req, res, next) => {
   User.findByIdAndRemove(req.params.id, (err) => {
     if (err) return next(err);
-    res.redirect(`/api/users/`);
+    res.status(200).json({message: 'User successfuly deleted'});
   });
 };
