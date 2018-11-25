@@ -22,12 +22,14 @@ exports.add = (req, res, next) => {
     location,
     description,
     companyEmail,
+    company,
     responsabilities,
     whatWeOffer,
     whatWeLookFor } = req.body;
 
   const newOffer = {
     companyEmail,
+    company,
     title,
     contractType,
     location,
@@ -48,12 +50,7 @@ exports.add = (req, res, next) => {
         if (err) return next(err);
         Company
           .findOneAndUpdate({email: companyEmail}, {$push: {jobOffers: offer._id}})
-          .then((comp) => {
-            Offer
-              .findByIdAndUpdate(doc._id, {company: comp.name}, {new: true})
-              .then((updatedOffer) => res.json(updatedOffer))
-              .catch(err => next(err));
-          })
+          .then(() => res.json(offer))
           .catch( err => next(err));
       });
     })
