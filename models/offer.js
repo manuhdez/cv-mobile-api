@@ -2,11 +2,21 @@ import mongoose from 'mongoose';
 
 const OfferSchema = new mongoose.Schema({
   companyEmail: {type: String, required: true, trim: true},
+  company: String,
   title: {type: String, required: true},
-  position: {type: String, required: true},
-  vacancies: {type: Number, required: true},
+  contractType: {type: String, required: true},
+  location: {type: String, required: true},
   description: String,
-  publicationDate: {type: Date, default: Date.now}
+  responsabilities: [String],
+  whatWeOffer: [{
+    title: String,
+    description: String
+  }],
+  whatWeLookFor: [{
+    title: String,
+    description: String
+  }],
+  publishDate: {type: Date, default: Date.now}
 });
 
 const Offer = mongoose.model('JobOffer', OfferSchema);

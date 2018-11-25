@@ -17,14 +17,24 @@ exports.getById = (req, res, next) => {
 };
 
 exports.add = (req, res, next) => {
-  let { title, position, vacancies, description, companyEmail } = req.body;
+  let { title,
+    contractType,
+    location,
+    description,
+    companyEmail,
+    responsabilities,
+    whatWeOffer,
+    whatWeLookFor } = req.body;
 
   const newOffer = {
+    companyEmail,
     title,
-    position,
-    vacancies,
+    contractType,
+    location,
     description,
-    companyEmail
+    responsabilities,
+    whatWeOffer,
+    whatWeLookFor
   }
 
   // Check if the email sent belong to an existing company
@@ -38,7 +48,12 @@ exports.add = (req, res, next) => {
         if (err) return next(err);
         Company
           .findOneAndUpdate({email: companyEmail}, {$push: {jobOffers: offer._id}})
-          .then( () => res.json(offer))
+          .then((comp) => {
+            Offer
+              .findByIdAndUpdate(doc._id, {$push: {company: comp.name}})
+              .then(() => res.json(offer))
+              .catch(err => next(err));
+          })
           .catch( err => next(err));
       });
     })
