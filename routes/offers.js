@@ -50,8 +50,8 @@ exports.add = (req, res, next) => {
           .findOneAndUpdate({email: companyEmail}, {$push: {jobOffers: offer._id}})
           .then((comp) => {
             Offer
-              .findByIdAndUpdate(doc._id, {$push: {company: comp.name}})
-              .then(() => res.json(offer))
+              .findByIdAndUpdate(doc._id, {company: comp.name}, {new: true})
+              .then((updatedOffer) => res.json(updatedOffer))
               .catch(err => next(err));
           })
           .catch( err => next(err));
