@@ -1,5 +1,7 @@
 import express from 'express';
 import multer from 'multer';
+import jwt from 'jsonwebtoken';
+
 const router = express.Router();
 
 // Multer settings to store images into the database
@@ -31,6 +33,21 @@ const upload = multer({
     }
   }
 });
+
+// Token verification middleware
+function verifyToken(req, res, next) {
+  // Get auth header value
+  const bearerHeader = req.headers.authorization;
+  if (bearerHeader) {
+    const token = bearerHeader.split(' ')[1];
+    // Add token to the request object
+    req.token = token;
+    // Pass to the next middleware
+    next();
+  } else {
+    res.status(400).json({message: 'You are not logged in'});
+  }
+}
 
 // API ROUTES
 router.get('/', (req, res, next) => {
@@ -81,7 +98,7 @@ router.delete('/companies/:id', companies.delete)
 
 // JOB OFFER CRUD
 import offers from './offers';
-router.get('/offers', offers.get);
+router.get('/offers', verifyToken, offers.get);
 router.post('/offers', offers.add);
 router.get('/offers/:id', offers.getById);
 router.delete('/offers/:id', offers.delete);
@@ -101,5 +118,9 @@ router.put('/summaries/:origin', summaries.updateSummary);
 // FILES
 import files from './files';
 router.post('/files/upload/:type/:id', upload.single('img'), files.uploadFile);
+
+// LOGIN AUTHENTICATION WITH JWT
+import logs from './login';
+router.post('/login', logs.login);
 
 module.exports = router;

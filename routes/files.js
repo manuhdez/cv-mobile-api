@@ -9,30 +9,30 @@ exports.uploadFile = (req, res, next) => {
 
   if (req.file) {
     newFile.url = `${req.protocol}://${req.hostname}/${req.file.path}`;
+
+    File
+      .deleteMany({model: id})
+      .then( () => {
+
+      File.create(newFile, (err, doc) => {
+        if (err) return next(err);
+        if (type === 'user') {
+
+          User.findByIdAndUpdate(id, {avatar: doc.url}, {new: true})
+          .exec( (err, user) => {
+            if (err) return next(err);
+            res.json(user);
+          });
+
+        } else if (type === 'company') {
+
+          Company.findByIdAndUpdate(id, {logo: doc.url}, {new: true})
+          .exec( (err, company) => {
+            if (err) return next(err);
+            res.json(company);
+          });
+        }
+      });
+    }).catch( err => res.json(err));
   }
-
-  File
-    .deleteOne({model: id})
-    .then( () => {
-
-    File.create(newFile, (err, doc) => {
-      if (err) return next(err);
-      if (type === 'user') {
-
-        User.findByIdAndUpdate(id, {avatar: doc.url}, {new: true})
-        .exec( (err, user) => {
-          if (err) return next(err);
-          res.json(user);
-        });
-
-      } else if (type === 'company') {
-
-        Company.findByIdAndUpdate(id, {logo: doc.url}, {new: true})
-        .exec( (err, company) => {
-          if (err) return next(err);
-          res.json(company);
-        });
-      }
-    });
-  }).catch( err => res.json(err));
 }
