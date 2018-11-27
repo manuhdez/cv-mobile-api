@@ -43,13 +43,18 @@ exports.add = (req, res, next) => {
   Company
     .find({email: companyEmail})
     .then( doc => {
-      console.log('doc: ', doc.length);
       if (doc.length === 0) return res.json({message: 'Please use an existing company email'});
 
       Offer.create(newOffer, (err, offer) => {
         if (err) return next(err);
+        if (!offer) {
+          const error = new Error('Something went wrong.');
+          error.status(500);
+          return next(error);
+        }
+
         Company
-          .findOneAndUpdate({email: companyEmail}, {$push: {jobOffers: offer._id}})
+          .update({email: companyEmail}, {$push: {jobOffers: offer._id}})
           .then(() => res.json(offer))
           .catch( err => next(err));
       });
@@ -58,12 +63,11 @@ exports.add = (req, res, next) => {
 };
 
 exports.delete = (req, res, next) => {
-
   Offer.findByIdAndDelete(req.params.id, (err, offer) => {
     if (err) return next(err);
     Company
       .findOneAndUpdate({email: offer.companyEmail}, {$pull: {jobOffers: offer._id}})
-      .then( (company) => res.redirect(`/api/companies/${company._id}`))
+      .then(() => res.status(200).json({message: 'Offer successfuly deleted'}))
       .catch( err => next(err));
   });
 };
