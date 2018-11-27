@@ -1,16 +1,16 @@
 import mongoose, { Schema } from "mongoose";
 
 const CompanySchema = new Schema({
-  name: { type: String, required: true, unique: true },
-  docType: { type: String, required: true },
-  docNumber: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true, trim: true },
-  website: { type: String, trim: true, unique: true },
+  name: {type: String, required: true, unique: true},
+  docType: {type: String, required: true},
+  docNumber: {type: String, required: true, unique: true},
+  email: {type: String, required: true, unique: true, trim: true},
+  website: {type: String, trim: true, unique: true, sparse: true},
   address: {
-    country: { type: String, required: true },
-    street: { type: String },
-    city: { type: String },
-    zipcode: { type: Number }
+    country: {type: String, required: true},
+    street: {type: String},
+    city: {type: String},
+    zipcode: {type: String},
   },
   socialUrls: [
     {

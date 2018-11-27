@@ -3,16 +3,8 @@ import User from "../models/user";
 // Fetch all stored users
 exports.getAll = (req, res, next) => {
   User.find()
-    .then(users => {
-      if (users.length > 0) {
-        return res.status(200).json({ success: true, users });
-      } else {
-        return res
-          .status(404)
-          .json({ success: false, error: "Not users found in the database" });
-      }
-    })
-    .catch(err => next(err));
+  .then( users => res.status(200).json(users))
+  .catch( err => next(err));
 };
 
 // Fetch a group with 10 users
@@ -20,8 +12,8 @@ exports.getPage = (req, res, next) => {
   User.find()
     .skip((req.params.pageId - 1) * 10)
     .limit(10)
-    .then(users => res.json(users))
-    .catch(err => next(err));
+    .then( users => res.status(200).json(users))
+    .catch( err => next(err));
 };
 
 // Add a new user to the database
@@ -66,12 +58,10 @@ exports.add = (req, res, next) => {
 
     User.create(newUser, function(err, user) {
       if (err) return next(err);
-      return res.json(user);
+      return res.status(200).json(user);
     });
   } else {
-    res.json({
-      error: "Name, username, email and country properties are required."
-    });
+    res.status(500).json({ error: 'Name, username, email and country properties are required.' });
   }
 };
 
@@ -82,7 +72,7 @@ exports.getById = (req, res, next) => {
     .populate("languages")
     .exec((err, user) => {
       if (err) return next(err);
-      res.json(user);
+      res.status(200).json(user);
     });
 };
 
@@ -93,15 +83,14 @@ exports.update = (req, res, next) => {
   User.findByIdAndUpdate(req.params.id, updatedUser, { new: true }).exec(
     (err, user) => {
       if (err) return next(err);
-      res.json(user);
-    }
-  );
+      res.status(200).json(user);
+    });
 };
 
 // Delete a user by id
 exports.delete = (req, res, next) => {
   User.findByIdAndRemove(req.params.id, err => {
     if (err) return next(err);
-    res.redirect(`/api/users/`);
+    res.status(200).json({message: 'User successfuly deleted'});
   });
 };
