@@ -22,7 +22,7 @@ exports.getById = (req, res, next) => {
 // Add a new company to the database
 exports.add = (req, res, next) => {
 
-  let { name, docType, docNumber, email, website, address, socialUrls, bio, employees, phone, jobOffers } = req.body;
+  let { name, docType, docNumber, email, website, address, socialUrls, bio, employees, phone } = req.body;
   let defaultLogo = `${req.protocol}://${req.hostname}/uploads/default_avatar.png`;
 
   if (name && email && docType && docNumber && address.country) {
@@ -37,7 +37,7 @@ exports.add = (req, res, next) => {
       bio,
       employees,
       phone,
-      jobOffers,
+      jobOffers: [],
       logo: defaultLogo
     }
 
