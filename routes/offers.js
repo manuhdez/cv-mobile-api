@@ -1,12 +1,17 @@
 import Offer from '../models/offer';
 import Company from '../models/company';
+import jwt from 'jsonwebtoken'
 
 // Get all offers
-exports.get = (req, res) => {
-  Offer
-    .find()
-    .then( offers => res.json(offers))
-    .catch( err => next(err));
+exports.get = (req, res, next) => {
+  jwt.verify(req.token, 'secret_key', (err, tokenData) => {
+    if (err) return next(err);
+
+    Offer
+      .find()
+      .then( offers => res.status(200).json(offers))
+      .catch( err => next(err));
+  });
 };
 
 exports.getById = (req, res, next) => {
