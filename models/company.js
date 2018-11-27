@@ -6,12 +6,12 @@ const CompanySchema = new Schema({
   docType: {type: String, required: true},
   docNumber: {type: String, required: true, unique: true},
   email: {type: String, required: true, unique: true, trim: true},
-  website: {type: String, trim: true, unique: true},
+  website: {type: String, trim: true, unique: true, sparse: true},
   address: {
     country: {type: String, required: true},
     street: {type: String},
     city: {type: String},
-    zipcode: {type: Number},
+    zipcode: {type: String},
   },
   socialUrls: [
     {
