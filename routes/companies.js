@@ -5,7 +5,7 @@ import Offer from '../models/offer';
 exports.getAll = (req, res, next) => {
   Company
     .find()
-    .then( companies => res.json(companies))
+    .then( companies => res.status(200).json(companies))
     .catch( err => next(err));
 };
 
@@ -15,7 +15,7 @@ exports.getById = (req, res, next) => {
   Company
     .findById(req.params.id)
     .populate('jobOffers')
-    .then( company => res.json(company))
+    .then( company => res.status(200).json(company))
     .catch( err => next(err));
 };
 
@@ -44,11 +44,11 @@ exports.add = (req, res, next) => {
     Company
       .create(newCompany, (err, company) => {
         if (err) return next(err);
-        return res.json(company);
+        return res.status(200).json(company);
       });
 
   } else {
-    res.json({error: 'Not all required data was sent'});
+    res.status(401).json({error: 'Not all required data was sent'});
   }
 
 }
@@ -64,7 +64,7 @@ exports.update = (req, res, next) => {
       if (updateData.email) {
         Offer
           .update({companyEmail: company.email}, {companyEmail: updateData.email})
-          .then( () => res.json(company))
+          .then( () => res.status(200).json(company))
           .catch( err => next(err));
       }
       res.json(company);
@@ -78,7 +78,7 @@ exports.delete = (req, res, next) => {
     if (err) return next(err);
     Offer
       .deleteMany({companyEmail: company.email})
-      .then( () => res.redirect('/api/companies'))
+      .then( () => res.status(200).json({message: 'Company successfuly deleted'}))
       .catch( err => next(err));
   });
 };
