@@ -27,6 +27,7 @@ exports.getById = (req, res, next) => {
 
 exports.add = (req, res, next) => {
   jwt.verify(req.token, 'secret_key', (err, tokenData) => {
+    if (err) return next(err);
 
     let { title, contractType, location, description, companyEmail, company, responsabilities, whatWeOffer, whatWeLookFor } = req.body;
 
@@ -58,6 +59,7 @@ exports.add = (req, res, next) => {
 
 exports.delete = (req, res, next) => {
   jwt.verify(req.token, 'secret_key', (err, tokenData) => {
+    if (err) return next(err);
     Offer.findByIdAndDelete(req.params.id, (err, offer) => {
       if (err) return next(err);
       Company
