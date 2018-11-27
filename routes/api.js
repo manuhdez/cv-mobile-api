@@ -99,9 +99,9 @@ router.delete('/companies/:id', companies.delete)
 // JOB OFFER CRUD
 import offers from './offers';
 router.get('/offers', verifyToken, offers.get);
-router.post('/offers', offers.add);
-router.get('/offers/:id', offers.getById);
-router.delete('/offers/:id', offers.delete);
+router.post('/offers', verifyToken, offers.add);
+router.get('/offers/:id', verifyToken, offers.getById);
+router.delete('/offers/:id', verifyToken, offers.delete);
 
 // SURVEYS CRUD
 import surveys from './surveys';
