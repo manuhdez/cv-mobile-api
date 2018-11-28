@@ -15,7 +15,8 @@ exports.login = (req, res, next) => {
           res.status(200).json({
             message: `Welcome back, ${response.name}`,
             token,
-            id: response._id
+            id: response._id,
+            profile: 'user'
           });
         });
       })
@@ -30,7 +31,8 @@ exports.login = (req, res, next) => {
           res.status(200).json({
             message: `Welcome back ${response.name}`,
             token,
-            id: response._id
+            id: response._id,
+            profile: 'company'
           });
         });
       });
