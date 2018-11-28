@@ -11,7 +11,8 @@ exports.login = (req, res, next) => {
 
         res.status(200).json({
           message: `Welcome back, ${response.name}`,
-          token
+          token,
+          id: response._id
         });
       });
     })
