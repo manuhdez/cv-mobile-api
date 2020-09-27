@@ -1,55 +1,55 @@
 {
-	"name": "cv-mobile-api",
-	"version": "1.0.0",
-	"description": "",
-	"main": "app.js",
-	"engines": {
-		"node": "8.9.0",
-		"npm": "6.4.1"
-	},
-	"scripts": {
-		"start": "cross-env NODE_ENV=production node dist/app.bundle.js",
-		"dev:start": "cross-env NODE_ENV=development nodemon dist/app.bundle.js",
-		"build": "cross-env NODE_ENV=production webpack --mode production --config webpack.config.js",
-		"dev:build": "cross-env NODE_ENV=development webpack --mode development --config webpack.config.js",
-		"watch": "cross-env NODE_ENV=development webpack --mode development --config webpack.config.js --watch",
-		"test": "cross-env NODE_ENV=development jest --notify --detectOpenHandles --env=node"
-	},
-	"author": "manuhdez",
-	"license": "MIT",
-	"dependencies": {
-		"body-parser": "^1.18.3",
-		"compression": "^1.7.3",
-		"cors": "^2.8.5",
-		"cross-env": "^5.2.0",
-		"dotenv": "^6.1.0",
-		"express": "^4.16.3",
-		"express-ga-middleware": "^0.1.6",
-		"helmet": "^3.14.0",
-		"jsonwebtoken": "^8.4.0",
-		"mongoose": "^5.3.2",
-		"morgan": "^1.9.1",
-		"multer": "^1.4.0",
-		"pug": "^2.0.3"
-	},
-	"devDependencies": {
-		"@babel/core": "^7.1.2",
-		"@babel/plugin-proposal-async-generator-functions": "^7.1.0",
-		"@babel/plugin-proposal-class-properties": "^7.1.0",
-		"babel-core": "7.0.0-bridge.0",
-		"babel-loader": "^8.0.4",
-		"babel-plugin-transform-object-rest-spread": "^7.0.0-beta.3",
-		"babel-preset-env": "^1.7.0",
-		"eslint": "^5.9.0",
-		"eslint-config-airbnb-base": "^13.1.0",
-		"eslint-plugin-import": "^2.14.0",
-		"jest": "^23.6.0",
-		"node-fetch": "^2.2.1",
-		"nodemon": "^1.18.6",
-		"nodemon-webpack-plugin": "^4.0.3",
-		"regenerator-runtime": "^0.12.1",
-		"webpack": "^4.20.2",
-		"webpack-cli": "^3.1.2",
-		"webpack-node-externals": "^1.7.2"
-	}
+  "name": "cv-mobile-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "engines": {
+    "node": "12.x",
+    "npm": "6.x"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node dist/app.bundle.js",
+    "dev:start": "cross-env NODE_ENV=development nodemon dist/app.bundle.js",
+    "build": "cross-env NODE_ENV=production webpack --mode production --config webpack.config.js",
+    "dev:build": "cross-env NODE_ENV=development webpack --mode development --config webpack.config.js",
+    "watch": "cross-env NODE_ENV=development webpack --mode development --config webpack.config.js --watch",
+    "test": "cross-env NODE_ENV=development jest --notify --detectOpenHandles --env=node"
+  },
+  "author": "manuhdez",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "cors": "^2.8.5",
+    "cross-env": "^5.2.0",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.3",
+    "express-ga-middleware": "^0.1.6",
+    "helmet": "^3.14.0",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.3.2",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.0",
+    "pug": "^2.0.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-async-generator-functions": "^7.1.0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-loader": "^8.0.4",
+    "babel-plugin-transform-object-rest-spread": "^7.0.0-beta.3",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "jest": "^23.6.0",
+    "node-fetch": "^2.2.1",
+    "nodemon": "^1.18.6",
+    "nodemon-webpack-plugin": "^4.0.3",
+    "regenerator-runtime": "^0.12.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-node-externals": "^1.7.2"
+  }
 }
