@@ -10,9 +10,7 @@ let mongoURI = "";
 if (process.env.NODE_ENV === "development") {
   mongoURI = "mongodb://localhost:27017/cv-mobile-api";
 } else {
-  mongoURI = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${
-    process.env.DB_HOST
-  }:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+  mongoURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_NAME}.cif1i.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 }
 
 console.log("MONGO URI: ", mongoURI);
@@ -23,10 +21,7 @@ const options = {
   reconnectInterval: 500,
   poolSize: 10,
   bufferMaxEntries: 0,
-  useNewUrlParser: true
+  useNewUrlParser: true,
 };
 
-export default mongoose.connect(
-  mongoURI,
-  options
-);
+export default mongoose.connect(mongoURI, options);
