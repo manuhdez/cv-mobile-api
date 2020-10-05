@@ -8,12 +8,12 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=production node dist/app.bundle.js",
-    "dev:start": "cross-env NODE_ENV=development nodemon dist/app.bundle.js",
-    "build": "cross-env NODE_ENV=production webpack --mode production --config webpack.config.js",
-    "dev:build": "cross-env NODE_ENV=development webpack --mode development --config webpack.config.js",
-    "watch": "cross-env NODE_ENV=development webpack --mode development --config webpack.config.js --watch",
-    "test": "cross-env NODE_ENV=development jest --notify --detectOpenHandles --env=node"
+    "start": "NODE_ENV=production node dist/app.bundle.js",
+    "dev:start": "NODE_ENV=development nodemon dist/app.bundle.js",
+    "build": "NODE_ENV=production webpack --mode production --config webpack.config.js",
+    "dev:build": "NODE_ENV=development webpack --mode development --config webpack.config.js",
+    "watch": "NODE_ENV=development webpack --mode development --config webpack.config.js --watch",
+    "test": "NODE_ENV=development jest --notify --detectOpenHandles --env=node"
   },
   "author": "manuhdez",
   "license": "MIT",
@@ -21,7 +21,6 @@
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
     "cors": "^2.8.5",
-    "cross-env": "^5.2.0",
     "dotenv": "^6.1.0",
     "express": "^4.16.3",
     "express-ga-middleware": "^0.1.6",

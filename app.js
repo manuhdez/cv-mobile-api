@@ -3,12 +3,10 @@ import morgan from 'morgan';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
-import mongoose from 'mongoose';
 import expressGa from 'express-ga-middleware';
 import cors from 'cors';
 import apiRoutes from './routes/api';
 import dbConnection from './config/database';
-
 
 const app = express();
 
@@ -31,35 +29,14 @@ function shouldCompress(req) {
 app.use(compression({ filter: shouldCompress }));
 
 // Middleware for logging http requests
-const loggerFormat = process.env.NODE_ENV === 'development' ? 'dev' : 'combined';
+const loggerFormat =
+  process.env.NODE_ENV === 'development' ? 'dev' : 'combined';
 app.use(morgan(loggerFormat));
 
 // Parsing requests
 app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-// Database connection
-const mongoURI = process.env.NODE_ENV === 'development'
-  ? 'mongodb://localhost:27017/cv-mobile'
-  : `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
-
-mongoose.connect(
-  mongoURI,
-  { useNewUrlParser: true },
-);
-
-const db = mongoose.connection;
-
-db.on('error', (err) => {
-  // eslint-disable-next-line no-console
-  console.error('Mongodb connection error:', err);
-});
-
-db.on('open', () => {
-  // eslint-disable-next-line no-console
-  console.log('Mongodb connected successfully');
-});
 
 // Server Routes
 app.get('/', (req, res) => {
@@ -101,4 +78,4 @@ dbConnection
       `);
     });
   })
-  .catch(err => `AN ERROR HAPPENED ON CONNECTION: ${console.error(err)}`);
+  .catch((err) => `AN ERROR HAPPENED ON CONNECTION: ${console.error(err)}`);
